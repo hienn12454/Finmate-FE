@@ -11,6 +11,7 @@ export default function Homepage() {
 
   return (
     <div className={styles.container}>
+      <div className={styles.waterGradient}></div>
       <header className={styles.header}>
         <div className={styles.logo}>
           <span className={styles.logoText}>Finmate</span>
