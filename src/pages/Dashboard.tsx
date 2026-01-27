@@ -49,11 +49,7 @@ export default function Dashboard() {
   }
 
   const displayName =
-    user?.firstName && user?.lastName
-      ? `${user.firstName} ${user.lastName}`
-      : user?.firstName
-      ? user.firstName
-      : user?.username || "Người dùng";
+    user?.fullName || user?.email?.split("@")[0] || "Người dùng";
 
   return (
     <div className={styles.container}>

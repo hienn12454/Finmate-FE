@@ -11,7 +11,7 @@ interface LoginModalProps {
 export default function LoginModal({ isOpen, onClose }: LoginModalProps) {
   const navigate = useNavigate();
   const { login, isAuthenticated, isLoading, error } = useAuth();
-  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [localError, setLocalError] = useState<string | null>(null);
 
@@ -38,12 +38,17 @@ export default function LoginModal({ isOpen, onClose }: LoginModalProps) {
     e.preventDefault();
     setLocalError(null);
 
-    if (!username.trim() || !password.trim()) {
+    if (!email.trim() || !password.trim()) {
       setLocalError("Vui lòng nhập đầy đủ thông tin");
       return;
     }
 
-    const success = await login(username, password);
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      setLocalError("Email không hợp lệ");
+      return;
+    }
+
+    const success = await login(email, password);
     if (!success) {
       setLocalError(error || "Đăng nhập thất bại");
     }
@@ -71,13 +76,13 @@ export default function LoginModal({ isOpen, onClose }: LoginModalProps) {
             )}
 
             <div className={styles.formGroup}>
-              <label htmlFor="username">Tên đăng nhập</label>
+              <label htmlFor="email">Email</label>
               <input
-                id="username"
-                type="text"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
-                placeholder="Nhập tên đăng nhập"
+                id="email"
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="Nhập email"
                 disabled={isLoading}
                 required
               />

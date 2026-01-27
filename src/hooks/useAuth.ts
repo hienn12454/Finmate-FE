@@ -4,10 +4,9 @@ import { authApi } from "../api/auth.api";
 
 interface User {
   id: string;
-  username: string;
-  email?: string;
-  firstName?: string;
-  lastName?: string;
+  email: string;
+  fullName?: string;
+  phoneNumber?: string;
 }
 
 interface UseAuthReturn {
@@ -15,8 +14,8 @@ interface UseAuthReturn {
   isLoading: boolean;
   error: string | null;
   user: User | null;
-  login: (username: string, password: string) => Promise<boolean>;
-  register: (username: string, password: string, email?: string, firstName?: string, lastName?: string) => Promise<boolean>;
+  login: (email: string, password: string) => Promise<boolean>;
+  register: (email: string, password: string, fullName: string, phoneNumber: string) => Promise<boolean>;
   signOut: () => Promise<void>;
   refreshUser: () => Promise<void>;
 }
@@ -55,8 +54,10 @@ export const useAuth = (): UseAuthReturn => {
   const refreshUser = async () => {
     try {
       const response = await authApi.me();
-      if (response.data) {
-        setUser(response.data as User);
+      // Handle different response structures: { user: {...} } or { data: { user: {...} } } or direct user object
+      const userData = response.data?.user || response.data?.data?.user || response.data;
+      if (userData && userData.id) {
+        setUser(userData as User);
         setIsAuthenticated(true);
         setError(null);
       }
@@ -69,26 +70,32 @@ export const useAuth = (): UseAuthReturn => {
     }
   };
 
-  const login = async (username: string, password: string): Promise<boolean> => {
+  const login = async (email: string, password: string): Promise<boolean> => {
     try {
       setIsLoading(true);
       setError(null);
-      const response = await authApi.login({ username, password });
+      const response = await authApi.login({ email, password });
       
-      if (response.data?.token) {
-        localStorage.setItem("access_token", response.data.token);
-        if (response.data.user) {
-          setUser(response.data.user);
+      // Handle different response structures
+      const token = response.data?.token || response.data?.data?.token;
+      const userData = response.data?.user || response.data?.data?.user;
+      
+      if (token) {
+        localStorage.setItem("access_token", token);
+        if (userData && userData.id) {
+          setUser(userData as User);
         } else {
           await refreshUser();
         }
         setIsAuthenticated(true);
         return true;
       }
+      setError("Không nhận được token từ server");
       return false;
     } catch (err: any) {
       console.error("Login error:", err);
-      setError(err.response?.data?.message || "Đăng nhập thất bại");
+      const errorMessage = err.response?.data?.message || err.response?.data?.error || err.message || "Đăng nhập thất bại";
+      setError(errorMessage);
       setIsAuthenticated(false);
       return false;
     } finally {
@@ -97,37 +104,41 @@ export const useAuth = (): UseAuthReturn => {
   };
 
   const register = async (
-    username: string,
+    email: string,
     password: string,
-    email?: string,
-    firstName?: string,
-    lastName?: string
+    fullName: string,
+    phoneNumber: string
   ): Promise<boolean> => {
     try {
       setIsLoading(true);
       setError(null);
       const response = await authApi.register({
-        username,
-        password,
         email,
-        firstName,
-        lastName,
+        password,
+        fullName,
+        phoneNumber,
       });
       
-      if (response.data?.token) {
-        localStorage.setItem("access_token", response.data.token);
-        if (response.data.user) {
-          setUser(response.data.user);
+      // Handle different response structures
+      const token = response.data?.token || response.data?.data?.token;
+      const userData = response.data?.user || response.data?.data?.user;
+      
+      if (token) {
+        localStorage.setItem("access_token", token);
+        if (userData && userData.id) {
+          setUser(userData as User);
         } else {
           await refreshUser();
         }
         setIsAuthenticated(true);
         return true;
       }
+      setError("Không nhận được token từ server");
       return false;
     } catch (err: any) {
       console.error("Register error:", err);
-      setError(err.response?.data?.message || "Đăng ký thất bại");
+      const errorMessage = err.response?.data?.message || err.response?.data?.error || err.message || "Đăng ký thất bại";
+      setError(errorMessage);
       setIsAuthenticated(false);
       return false;
     } finally {

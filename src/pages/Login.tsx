@@ -10,12 +10,11 @@ export default function Login() {
   
   const { login, register, isAuthenticated, isLoading, error } = useAuth();
   
-  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [email, setEmail] = useState("");
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
+  const [fullName, setFullName] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
   const [localError, setLocalError] = useState<string | null>(null);
 
   useEffect(() => {
@@ -29,8 +28,13 @@ export default function Login() {
     setLocalError(null);
 
     if (isRegisterMode) {
-      if (!username.trim() || !password.trim()) {
+      if (!email.trim() || !password.trim() || !fullName.trim() || !phoneNumber.trim()) {
         setLocalError("Vui lòng nhập đầy đủ thông tin");
+        return;
+      }
+
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        setLocalError("Email không hợp lệ");
         return;
       }
 
@@ -44,23 +48,27 @@ export default function Login() {
         return;
       }
 
-      const success = await register(
-        username,
-        password,
-        email || undefined,
-        firstName || undefined,
-        lastName || undefined
-      );
+      if (!/^[0-9]{10,11}$/.test(phoneNumber)) {
+        setLocalError("Số điện thoại không hợp lệ (10-11 số)");
+        return;
+      }
+
+      const success = await register(email, password, fullName, phoneNumber);
       if (!success) {
         setLocalError(error || "Đăng ký thất bại");
       }
     } else {
-      if (!username.trim() || !password.trim()) {
+      if (!email.trim() || !password.trim()) {
         setLocalError("Vui lòng nhập đầy đủ thông tin");
         return;
       }
 
-      const success = await login(username, password);
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        setLocalError("Email không hợp lệ");
+        return;
+      }
+
+      const success = await login(email, password);
       if (!success) {
         setLocalError(error || "Đăng nhập thất bại");
       }
@@ -93,59 +101,48 @@ export default function Login() {
               </div>
             )}
 
-            {isRegisterMode && (
-              <>
-                <div className={styles.formRow}>
-                  <div className={styles.formGroup}>
-                    <label htmlFor="firstName">Họ</label>
-                    <input
-                      id="firstName"
-                      type="text"
-                      value={firstName}
-                      onChange={(e) => setFirstName(e.target.value)}
-                      placeholder="Nhập họ"
-                      disabled={isLoading}
-                    />
-                  </div>
-                  <div className={styles.formGroup}>
-                    <label htmlFor="lastName">Tên</label>
-                    <input
-                      id="lastName"
-                      type="text"
-                      value={lastName}
-                      onChange={(e) => setLastName(e.target.value)}
-                      placeholder="Nhập tên"
-                      disabled={isLoading}
-                    />
-                  </div>
-                </div>
-
-                <div className={styles.formGroup}>
-                  <label htmlFor="email">Email (tùy chọn)</label>
-                  <input
-                    id="email"
-                    type="email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    placeholder="Nhập email"
-                    disabled={isLoading}
-                  />
-                </div>
-              </>
-            )}
-
             <div className={styles.formGroup}>
-              <label htmlFor="username">Tên đăng nhập</label>
+              <label htmlFor="email">Email</label>
               <input
-                id="username"
-                type="text"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
-                placeholder="Nhập tên đăng nhập"
+                id="email"
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="Nhập email"
                 disabled={isLoading}
                 required
               />
             </div>
+
+            {isRegisterMode && (
+              <>
+                <div className={styles.formGroup}>
+                  <label htmlFor="fullName">Họ và tên</label>
+                  <input
+                    id="fullName"
+                    type="text"
+                    value={fullName}
+                    onChange={(e) => setFullName(e.target.value)}
+                    placeholder="Nhập họ và tên"
+                    disabled={isLoading}
+                    required
+                  />
+                </div>
+
+                <div className={styles.formGroup}>
+                  <label htmlFor="phoneNumber">Số điện thoại</label>
+                  <input
+                    id="phoneNumber"
+                    type="tel"
+                    value={phoneNumber}
+                    onChange={(e) => setPhoneNumber(e.target.value)}
+                    placeholder="Nhập số điện thoại"
+                    disabled={isLoading}
+                    required
+                  />
+                </div>
+              </>
+            )}
 
             <div className={styles.formGroup}>
               <label htmlFor="password">Mật khẩu</label>

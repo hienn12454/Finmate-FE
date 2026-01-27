@@ -1,27 +1,25 @@
 import axiosClient from "./axiosClient";
 
 export interface LoginRequest {
-  username: string;
+  email: string;
   password: string;
 }
 
 export interface RegisterRequest {
-  username: string;
+  email: string;
   password: string;
-  email?: string;
-  firstName?: string;
-  lastName?: string;
+  fullName: string;
+  phoneNumber: string;
 }
 
 export interface AuthResponse {
-  success: boolean;
+  success?: boolean;
   token?: string;
   user?: {
     id: string;
-    username: string;
-    email?: string;
-    firstName?: string;
-    lastName?: string;
+    email: string;
+    fullName?: string;
+    phoneNumber?: string;
   };
   message?: string;
 }
@@ -31,7 +29,7 @@ export interface AuthResponse {
  */
 export const authApi = {
   /**
-   * Login with username and password
+   * Login with email and password
    */
   login: (data: LoginRequest) =>
     axiosClient.post<AuthResponse>("/auth/login", data),
