@@ -7,6 +7,7 @@ interface User {
   email: string;
   fullName?: string;
   phoneNumber?: string;
+  avatarUrl?: string;
 }
 
 interface UseAuthReturn {

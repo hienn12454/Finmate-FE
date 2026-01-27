@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import LoginModal from "../components/LoginModal";
+import { useAuth } from "../hooks/useAuth";
 import styles from "./Homepage.module.css";
 
 function scrollToSection(id: string) {
@@ -12,9 +13,12 @@ export default function Homepage() {
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
+  const { isAuthenticated, user, signOut } = useAuth();
 
   const handleLogin = () => setIsLoginModalOpen(true);
-  const goHomeAndScroll = (scrollTo: string) => navigate("/", { state: { scrollTo } });
+
+  const displayName =
+    user?.fullName || user?.email?.split("@")[0] || "bạn";
 
   useEffect(() => {
     const scrollTo = (location.state as { scrollTo?: string } | null)?.scrollTo;
@@ -45,14 +49,37 @@ export default function Homepage() {
           <button type="button" onClick={() => scrollToSection("tien-ich")} className={styles.navLink}>TIỆN ÍCH</button>
           <Link to="/support" className={styles.navLink}>HỖ TRỢ</Link>
         </nav>
-        <div className={styles.headerRight}>
-          <button type="button" onClick={handleLogin} className={styles.upgradeButton}>
-            <span className={styles.buttonText}>Nâng cấp tài khoản</span>
-          </button>
-          <button type="button" onClick={handleLogin} className={styles.loginButton}>
-            <span className={styles.buttonText}>Đăng nhập</span>
-          </button>
-        </div>
+        {isAuthenticated ? (
+          <div className={styles.headerRightAuth}>
+            <div className={styles.avatarSmall}>
+              {displayName.charAt(0).toUpperCase()}
+            </div>
+            <span className={styles.userGreeting}>Xin chào, {displayName}</span>
+            <button
+              type="button"
+              className={styles.loginButton}
+              onClick={() => navigate("/dashboard")}
+            >
+              <span className={styles.buttonText}>Dashboard</span>
+            </button>
+            <button
+              type="button"
+              className={styles.upgradeButton}
+              onClick={() => signOut()}
+            >
+              <span className={styles.buttonText}>Đăng xuất</span>
+            </button>
+          </div>
+        ) : (
+          <div className={styles.headerRight}>
+            <button type="button" onClick={handleLogin} className={styles.upgradeButton}>
+              <span className={styles.buttonText}>Nâng cấp tài khoản</span>
+            </button>
+            <button type="button" onClick={handleLogin} className={styles.loginButton}>
+              <span className={styles.buttonText}>Đăng nhập</span>
+            </button>
+          </div>
+        )}
       </header>
 
       <section className={styles.introduce}>

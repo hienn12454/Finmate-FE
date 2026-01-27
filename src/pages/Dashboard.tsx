@@ -1,4 +1,6 @@
-import { FormEvent, useEffect, useState } from "react";
+import type { FormEvent } from "react";
+import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
 import { dashboardApi } from "../api/dashboard.api";
 import type {
@@ -225,14 +227,26 @@ export default function Dashboard() {
   const displayName =
     user?.fullName || user?.email?.split("@")[0] || "Người dùng";
 
+  const avatarUrl =
+    user?.avatarUrl && user.avatarUrl.trim().length > 0
+      ? user.avatarUrl
+      : "data:image/jpeg;base64,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";
+
   return (
     <div className={styles.container}>
       <div className={styles.waterGradient} />
       <header className={styles.header}>
-        <div className={styles.logo}>
+        <Link to="/" className={styles.logo}>
           <span className={styles.logoText}>Finmate</span>
-        </div>
+        </Link>
         <div className={styles.headerRight}>
+          <div className={styles.avatarWrapper}>
+            <img
+              src={avatarUrl}
+              alt={displayName}
+              className={styles.avatarImage}
+            />
+          </div>
           <span className={styles.userName}>
             {greeting}, {displayName}! 👋
           </span>

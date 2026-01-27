@@ -1,6 +1,7 @@
 import { Link, Navigate, useNavigate, useParams } from "react-router-dom";
 import { useEffect, useMemo, useRef, useState } from "react";
 import LoginModal from "../components/LoginModal";
+import { useAuth } from "../hooks/useAuth";
 import homeStyles from "./Homepage.module.css";
 import styles from "./Guides.module.css";
 import { getGuideBySlug } from "./guidesData";
@@ -23,6 +24,9 @@ export default function GuideArticle() {
 
   const handleLogin = () => setIsLoginModalOpen(true);
   const goHomeAndScroll = (scrollTo: string) => navigate("/", { state: { scrollTo } });
+
+  const { isAuthenticated, user, signOut } = useAuth();
+  const displayName = user?.fullName || user?.email?.split("@")[0] || "bạn";
 
   if (!guide) return <Navigate to="/guides" replace />;
 
@@ -164,14 +168,37 @@ export default function GuideArticle() {
           </Link>
         </nav>
 
-        <div className={homeStyles.headerRight}>
-          <button type="button" onClick={handleLogin} className={homeStyles.upgradeButton}>
-            <span className={homeStyles.buttonText}>Nâng cấp tài khoản</span>
-          </button>
-          <button type="button" onClick={handleLogin} className={homeStyles.loginButton}>
-            <span className={homeStyles.buttonText}>Đăng nhập</span>
-          </button>
-        </div>
+        {isAuthenticated ? (
+          <div className={homeStyles.headerRightAuth}>
+            <div className={homeStyles.avatarSmall}>
+              {displayName.charAt(0).toUpperCase()}
+            </div>
+            <span className={homeStyles.userGreeting}>Xin chào, {displayName}</span>
+            <button
+              type="button"
+              className={homeStyles.loginButton}
+              onClick={() => navigate("/dashboard")}
+            >
+              <span className={homeStyles.buttonText}>Dashboard</span>
+            </button>
+            <button
+              type="button"
+              className={homeStyles.upgradeButton}
+              onClick={() => signOut()}
+            >
+              <span className={homeStyles.buttonText}>Đăng xuất</span>
+            </button>
+          </div>
+        ) : (
+          <div className={homeStyles.headerRight}>
+            <button type="button" onClick={handleLogin} className={homeStyles.upgradeButton}>
+              <span className={homeStyles.buttonText}>Nâng cấp tài khoản</span>
+            </button>
+            <button type="button" onClick={handleLogin} className={homeStyles.loginButton}>
+              <span className={homeStyles.buttonText}>Đăng nhập</span>
+            </button>
+          </div>
+        )}
       </header>
 
       <main className={styles.main}>

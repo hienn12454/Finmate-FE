@@ -28,11 +28,14 @@ export default function LoginModal({ isOpen, onClose }: LoginModalProps) {
   }, [isOpen]);
 
   useEffect(() => {
-    if (isAuthenticated) {
+    // Chỉ redirect về dashboard khi:
+    // - Modal đang mở (user đang đăng nhập từ modal)
+    // - Và đã đăng nhập thành công
+    if (isOpen && isAuthenticated) {
       onClose();
       navigate("/dashboard");
     }
-  }, [isAuthenticated, navigate, onClose]);
+  }, [isOpen, isAuthenticated, navigate, onClose]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
