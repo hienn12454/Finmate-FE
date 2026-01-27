@@ -1,128 +1,185 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import LoginModal from "../components/LoginModal";
 import styles from "./Homepage.module.css";
 
+function scrollToSection(id: string) {
+  const el = document.getElementById(id);
+  el?.scrollIntoView({ behavior: "smooth" });
+}
+
 export default function Homepage() {
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
+  const location = useLocation();
+  const navigate = useNavigate();
 
-  const handleLogin = () => {
-    setIsLoginModalOpen(true);
-  };
+  const handleLogin = () => setIsLoginModalOpen(true);
+  const goHomeAndScroll = (scrollTo: string) => navigate("/", { state: { scrollTo } });
+
+  useEffect(() => {
+    const scrollTo = (location.state as { scrollTo?: string } | null)?.scrollTo;
+    if (!scrollTo) return;
+
+    // Đợi paint/layout rồi mới scroll để tránh lệch vị trí
+    requestAnimationFrame(() => scrollToSection(scrollTo));
+    // Clear state để refresh không scroll lại
+    navigate("/", { replace: true, state: null });
+  }, [location.state, navigate]);
 
   return (
     <div className={styles.container}>
-      <div className={styles.waterGradient}></div>
+      <div className={styles.waterGradient} />
       <header className={styles.header}>
-        <div className={styles.logo}>
-          <span className={styles.logoText}>Finmate</span>
+        <div className={styles.headerLeft}>
+          <Link to="/" className={styles.logo}>
+            <span className={styles.logoMark}>F</span>
+            <div className={styles.brand}>
+              <span className={styles.logoText}>Finmate</span>
+              <span className={styles.tagline}>Ứng dụng Quản Lý Tài Chính Cá Nhân</span>
+            </div>
+          </Link>
         </div>
-        <button onClick={handleLogin} className={styles.loginButton}>
-          Đăng nhập
-        </button>
+        <nav className={styles.nav}>
+          <Link to="/" className={styles.navLink}>TRANG CHỦ</Link>
+          <button type="button" onClick={() => scrollToSection("tinh-nang")} className={styles.navLink}>TÍNH NĂNG</button>
+          <button type="button" onClick={() => scrollToSection("tien-ich")} className={styles.navLink}>TIỆN ÍCH</button>
+          <Link to="/support" className={styles.navLink}>HỖ TRỢ</Link>
+        </nav>
+        <div className={styles.headerRight}>
+          <button type="button" onClick={handleLogin} className={styles.upgradeButton}>
+            <span className={styles.buttonText}>Nâng cấp tài khoản</span>
+          </button>
+          <button type="button" onClick={handleLogin} className={styles.loginButton}>
+            <span className={styles.buttonText}>Đăng nhập</span>
+          </button>
+        </div>
       </header>
 
-      <main className={styles.main}>
-        <div className={styles.hero}>
-          <div className={styles.logoLarge}>
-            <span className={styles.logoLargeText}>Finmate</span>
-          </div>
-          <h1 className={styles.title}>Chào mừng đến với Finmate</h1>
-          <p className={styles.description}>
-            Finmate - Ứng dụng quản lý tài chính cá nhân thông minh giúp bạn kiểm soát chi tiêu, 
-            lập kế hoạch ngân sách, theo dõi thu nhập và đạt được các mục tiêu tài chính của mình. 
-            Bắt đầu hành trình tự do tài chính ngay hôm nay!
+      <section className={styles.introduce}>
+        <div className={styles.introduceInner}>
+          <h1 className={styles.introduceTitle}>Finmate</h1>
+          <p className={styles.introduceTagline}>Ứng dụng Quản Lý Tài Chính Cá Nhân thông minh</p>
+          <p className={styles.introduceDesc}>
+            Kiểm soát chi tiêu, lập kế hoạch ngân sách, theo dõi thu nhập và đạt mục tiêu tài chính. 
+            Bắt đầu hành trình tự do tài chính ngay hôm nay.
           </p>
+          <button type="button" onClick={handleLogin} className={styles.ctaButton}>
+            Bắt đầu ngay - Miễn phí
+          </button>
+        </div>
+      </section>
+
+      <main className={styles.main}>
+        <section id="tinh-nang" className={styles.section}>
+          <h2 className={styles.sectionTitle}>Tính năng</h2>
           <div className={styles.features}>
             <div className={styles.featureCard}>
               <div className={styles.featureIcon}>💰</div>
               <h3>Quản lý chi tiêu thông minh</h3>
-              <p>Ghi nhận và phân loại mọi khoản chi tiêu tự động. Nhận cảnh báo khi vượt ngân sách. Phân tích xu hướng chi tiêu theo thời gian.</p>
+              <p>Ghi nhận và phân loại mọi khoản chi tiêu tự động. Cảnh báo vượt ngân sách. Phân tích xu hướng theo thời gian.</p>
             </div>
             <div className={styles.featureCard}>
               <div className={styles.featureIcon}>📊</div>
               <h3>Báo cáo & Phân tích</h3>
-              <p>Biểu đồ trực quan hóa dòng tiền. Thống kê chi tiết theo danh mục. Dự báo tài chính dựa trên dữ liệu lịch sử.</p>
+              <p>Biểu đồ trực quan dòng tiền. Thống kê theo danh mục. Dự báo tài chính từ dữ liệu lịch sử.</p>
             </div>
             <div className={styles.featureCard}>
               <div className={styles.featureIcon}>🎯</div>
               <h3>Mục tiêu & Tiết kiệm</h3>
-              <p>Đặt mục tiêu tiết kiệm cụ thể. Theo dõi tiến độ hàng ngày. Nhận gợi ý cách tiết kiệm hiệu quả.</p>
+              <p>Đặt mục tiêu tiết kiệm cụ thể. Theo dõi tiến độ hàng ngày. Gợi ý tiết kiệm hiệu quả.</p>
             </div>
             <div className={styles.featureCard}>
               <div className={styles.featureIcon}>🏦</div>
               <h3>Quản lý tài khoản</h3>
-              <p>Kết nối nhiều tài khoản ngân hàng. Đồng bộ giao dịch tự động. Quản lý thẻ tín dụng và nợ.</p>
+              <p>Kết nối nhiều tài khoản ngân hàng. Đồng bộ giao dịch. Quản lý thẻ tín dụng và nợ.</p>
             </div>
             <div className={styles.featureCard}>
               <div className={styles.featureIcon}>💳</div>
               <h3>Ngân sách thông minh</h3>
-              <p>Lập kế hoạch chi tiêu hàng tháng. Phân bổ ngân sách theo danh mục. Điều chỉnh linh hoạt khi cần.</p>
+              <p>Kế hoạch chi tiêu hàng tháng. Phân bổ theo danh mục. Điều chỉnh linh hoạt.</p>
             </div>
             <div className={styles.featureCard}>
               <div className={styles.featureIcon}>🔔</div>
               <h3>Nhắc nhở & Cảnh báo</h3>
-              <p>Nhắc thanh toán hóa đơn đúng hạn. Cảnh báo chi tiêu bất thường. Thông báo khi đạt mục tiêu.</p>
+              <p>Nhắc thanh toán hóa đơn. Cảnh báo chi tiêu bất thường. Thông báo khi đạt mục tiêu.</p>
             </div>
           </div>
-          <button onClick={handleLogin} className={styles.ctaButton}>
-            Bắt đầu ngay - Miễn phí
-          </button>
-        </div>
+        </section>
 
-        <div className={styles.whySection}>
+        <section id="tien-ich" className={styles.section}>
           <h2 className={styles.sectionTitle}>Tại sao chọn Finmate?</h2>
           <div className={styles.benefitsGrid}>
             <div className={styles.benefitItem}>
               <span className={styles.benefitNumber}>01</span>
               <h4>Dễ sử dụng</h4>
-              <p>Giao diện thân thiện, đơn giản. Chỉ 5 phút là bạn đã có thể bắt đầu quản lý tài chính hiệu quả.</p>
+              <p>Giao diện thân thiện. Chỉ 5 phút bắt đầu quản lý tài chính hiệu quả.</p>
             </div>
             <div className={styles.benefitItem}>
               <span className={styles.benefitNumber}>02</span>
               <h4>Bảo mật tuyệt đối</h4>
-              <p>Dữ liệu được mã hóa cao cấp. Tuân thủ chuẩn bảo mật quốc tế. Quyền riêng tư của bạn là ưu tiên hàng đầu.</p>
+              <p>Dữ liệu mã hóa cao cấp. Tuân thủ chuẩn bảo mật. Quyền riêng tư ưu tiên hàng đầu.</p>
             </div>
             <div className={styles.benefitItem}>
               <span className={styles.benefitNumber}>03</span>
               <h4>Đồng bộ mọi nơi</h4>
-              <p>Truy cập trên web, mobile, tablet. Dữ liệu tự động đồng bộ real-time. Quản lý tài chính mọi lúc mọi nơi.</p>
+              <p>Web, mobile, tablet. Đồng bộ real-time. Quản lý mọi lúc mọi nơi.</p>
             </div>
             <div className={styles.benefitItem}>
               <span className={styles.benefitNumber}>04</span>
               <h4>AI thông minh</h4>
-              <p>Phân tích chi tiêu tự động. Gợi ý tiết kiệm thông minh. Dự báo tài chính chính xác.</p>
+              <p>Phân tích chi tiêu tự động. Gợi ý tiết kiệm. Dự báo tài chính chính xác.</p>
             </div>
           </div>
-        </div>
+        </section>
 
-        <div className={styles.statsSection}>
-          <div className={styles.statItem}>
-            <h3>10,000+</h3>
-            <p>Người dùng tin tưởng</p>
+        <section id="ho-tro" className={styles.section}>
+          <div className={styles.statsSection}>
+            <div className={styles.statItem}>
+              <h3>10,000+</h3>
+              <p>Người dùng tin tưởng</p>
+            </div>
+            <div className={styles.statItem}>
+              <h3>50M+</h3>
+              <p>Giao dịch được quản lý</p>
+            </div>
+            <div className={styles.statItem}>
+              <h3>4.8/5</h3>
+              <p>Đánh giá trung bình</p>
+            </div>
+            <div className={styles.statItem}>
+              <h3>24/7</h3>
+              <p>Hỗ trợ khách hàng</p>
+            </div>
           </div>
-          <div className={styles.statItem}>
-            <h3>50M+</h3>
-            <p>Giao dịch được quản lý</p>
-          </div>
-          <div className={styles.statItem}>
-            <h3>4.8/5</h3>
-            <p>Đánh giá trung bình</p>
-          </div>
-          <div className={styles.statItem}>
-            <h3>24/7</h3>
-            <p>Hỗ trợ khách hàng</p>
-          </div>
-        </div>
+        </section>
       </main>
 
       <footer className={styles.footer}>
-        <p>&copy; 2026 Finmate. All rights reserved.</p>
+        <div className={styles.footerGrid}>
+          <div className={styles.footerCol}>
+            <div className={styles.footerBrand}>
+              <span className={styles.logoMark}>F</span>
+              <span className={styles.footerLogoText}>Finmate</span>
+            </div>
+            <p className={styles.footerTagline}>Ứng dụng Quản Lý Tài Chính Cá Nhân</p>
+            <p className={styles.footerContact}>© 2026 <span className={styles.finmateText}>Finmate</span>. All rights reserved.</p>
+          </div>
+          <div className={styles.footerCol}>
+            <h4>Khám phá</h4>
+            <Link to="/" className={styles.footerLink}>Trang chủ</Link>
+            <button type="button" onClick={() => scrollToSection("tinh-nang")} className={styles.footerLink}>Tính năng</button>
+            <button type="button" onClick={handleLogin} className={styles.footerLink}>Đăng nhập</button>
+          </div>
+          <div className={styles.footerCol}>
+            <h4>Tài nguyên</h4>
+            <Link to="/support" className={styles.footerLink}>Hỗ trợ</Link>
+            <Link to="/guides" className={styles.footerLink}>Hướng dẫn</Link>
+            <Link to="/blog" className={styles.footerLink}>Blog</Link>
+          </div>
+        </div>
       </footer>
 
-      <LoginModal 
-        isOpen={isLoginModalOpen} 
-        onClose={() => setIsLoginModalOpen(false)} 
-      />
+      <LoginModal isOpen={isLoginModalOpen} onClose={() => setIsLoginModalOpen(false)} />
     </div>
   );
 }

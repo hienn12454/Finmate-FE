@@ -64,7 +64,7 @@ export default function LoginModal({ isOpen, onClose }: LoginModalProps) {
         </button>
         <div className={styles.content}>
           <div className={styles.header}>
-            <h2>Đăng nhập vào Finmate</h2>
+            <h2>Đăng nhập vào <span className={styles.finmateText}>Finmate</span></h2>
             <p>Quản lý tài chính thông minh hơn</p>
           </div>
           

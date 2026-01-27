@@ -74,11 +74,12 @@ export const useAuth = (): UseAuthReturn => {
     try {
       setIsLoading(true);
       setError(null);
-      const response = await authApi.login({ email, password });
+      const { data } = await authApi.login({ email, password });
+      const anyData: any = data;
       
       // Handle different response structures
-      const token = response.data?.token || response.data?.data?.token;
-      const userData = response.data?.user || response.data?.data?.user;
+      const token = anyData.token || anyData.data?.token;
+      const userData = anyData.user || anyData.data?.user;
       
       if (token) {
         localStorage.setItem("access_token", token);
@@ -112,7 +113,7 @@ export const useAuth = (): UseAuthReturn => {
     try {
       setIsLoading(true);
       setError(null);
-      const response = await authApi.register({
+      const { data } = await authApi.register({
         email,
         password,
         fullName,
@@ -120,8 +121,9 @@ export const useAuth = (): UseAuthReturn => {
       });
       
       // Handle different response structures
-      const token = response.data?.token || response.data?.data?.token;
-      const userData = response.data?.user || response.data?.data?.user;
+      const anyData: any = data;
+      const token = anyData.token || anyData.data?.token;
+      const userData = anyData.user || anyData.data?.user;
       
       if (token) {
         localStorage.setItem("access_token", token);
@@ -133,11 +135,25 @@ export const useAuth = (): UseAuthReturn => {
         setIsAuthenticated(true);
         return true;
       }
-      setError("Không nhận được token từ server");
+
+      // Nhiều backend chỉ trả về user (không kèm token) sau khi đăng ký
+      // -> coi là đăng ký thành công, chuyển người dùng sang màn đăng nhập
+      if (anyData?.id || anyData?.email) {
+        setError(null);
+        return true;
+      }
+
+      setError("Đăng ký thành công nhưng phản hồi không hợp lệ (thiếu thông tin).");
       return false;
     } catch (err: any) {
       console.error("Register error:", err);
-      const errorMessage = err.response?.data?.message || err.response?.data?.error || err.message || "Đăng ký thất bại";
+      const raw = err.response?.data;
+      const errorMessage =
+        raw?.message ||
+        raw?.error ||
+        (typeof raw === "string" && raw.includes("409") ? "Email đã tồn tại" : undefined) ||
+        err.message ||
+        "Đăng ký thất bại";
       setError(errorMessage);
       setIsAuthenticated(false);
       return false;

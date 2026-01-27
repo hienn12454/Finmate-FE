@@ -56,6 +56,10 @@ export default function Login() {
       const success = await register(email, password, fullName, phoneNumber);
       if (!success) {
         setLocalError(error || "Đăng ký thất bại");
+      } else {
+        // Backend hiện đang trả user (không kèm token) sau khi đăng ký
+        // => chuyển sang màn đăng nhập để user login lấy token
+        navigate("/login");
       }
     } else {
       if (!email.trim() || !password.trim()) {
@@ -91,7 +95,7 @@ export default function Login() {
           <p className={styles.subtitle}>
             {isRegisterMode
               ? "Tạo tài khoản mới để bắt đầu"
-              : "Chào mừng trở lại với Finmate"}
+              : <>Chào mừng trở lại với <span className={styles.finmateText}>Finmate</span></>}
           </p>
           
           <form onSubmit={handleSubmit} className={styles.form}>

@@ -15,7 +15,10 @@ axiosClient.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem("access_token");
     if (token) {
-      config.headers.Authorization = `Bearer ${token}`;
+      // Token trả về từ backend là JWT, dùng scheme Bearer
+      const trimmed = token.trim();
+      const hasScheme = /^(Bearer|Basic)\s+/i.test(trimmed);
+      config.headers.Authorization = hasScheme ? trimmed : `Bearer ${trimmed}`;
     }
     return config;
   },
@@ -28,11 +31,8 @@ axiosClient.interceptors.request.use(
 axiosClient.interceptors.response.use(
   (response) => response,
   (error) => {
-    if (error.response?.status === 401) {
-      // Token expired or invalid - clear storage and redirect to login
-      localStorage.removeItem("access_token");
-      window.location.href = "/login";
-    }
+    // 401 sẽ được xử lý tuỳ ngữ cảnh (ví dụ trong useAuth.refreshUser).
+    // Ở đây chỉ đơn giản trả lỗi ra ngoài.
     return Promise.reject(error);
   }
 );

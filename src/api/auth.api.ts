@@ -21,6 +21,17 @@ export interface AuthResponse {
     fullName?: string;
     phoneNumber?: string;
   };
+  // Một số backend trả về trong field "data"
+  data?: {
+    token?: string;
+    user?: {
+      id: string;
+      email: string;
+      fullName?: string;
+      phoneNumber?: string;
+    };
+    message?: string;
+  };
   message?: string;
 }
 
@@ -32,13 +43,13 @@ export const authApi = {
    * Login with email and password
    */
   login: (data: LoginRequest) =>
-    axiosClient.post<AuthResponse>("/auth/login", data),
+    axiosClient.post<AuthResponse>("/basic-auth/login", data),
 
   /**
    * Register new user
    */
   register: (data: RegisterRequest) =>
-    axiosClient.post<AuthResponse>("/auth/register", data),
+    axiosClient.post<AuthResponse>("/basic-auth/register", data),
 
   /**
    * Get current user information
