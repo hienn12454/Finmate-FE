@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { authApi } from "../api/auth.api";
 
-interface User {
+export interface User {
   id: string;
   email: string;
   fullName?: string;
@@ -25,6 +25,10 @@ interface UseAuthReturn {
  * Custom hook to manage authentication flow
  * Handles username/password authentication
  */
+// Global flag to prevent multiple simultaneous refresh calls
+let isRefreshing = false;
+let refreshPromise: Promise<void> | null = null;
+
 export const useAuth = (): UseAuthReturn => {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(true);
@@ -44,31 +48,47 @@ export const useAuth = (): UseAuthReturn => {
           localStorage.removeItem("access_token");
           setIsAuthenticated(false);
           setUser(null);
+        } finally {
+          setIsLoading(false);
         }
+      } else {
+        setIsLoading(false);
       }
-      setIsLoading(false);
     };
 
     checkAuth();
   }, []);
 
   const refreshUser = async () => {
-    try {
-      const response = await authApi.me();
-      // Handle different response structures: { user: {...} } or { data: { user: {...} } } or direct user object
-      const userData = response.data?.user || response.data?.data?.user || response.data;
-      if (userData && userData.id) {
-        setUser(userData as User);
-        setIsAuthenticated(true);
-        setError(null);
-      }
-    } catch (err: any) {
-      console.error("Failed to get user info:", err);
-      localStorage.removeItem("access_token");
-      setIsAuthenticated(false);
-      setUser(null);
-      throw err;
+    // Prevent multiple simultaneous calls
+    if (isRefreshing && refreshPromise) {
+      return refreshPromise;
     }
+
+    isRefreshing = true;
+    refreshPromise = (async () => {
+      try {
+        const response = await authApi.me();
+        // Handle different response structures: { user: {...} } or { data: { user: {...} } } or direct user object
+        const userData = response.data?.user || response.data?.data?.user || response.data;
+        if (userData && userData.id) {
+          setUser(userData as User);
+          setIsAuthenticated(true);
+          setError(null);
+        }
+      } catch (err: any) {
+        console.error("Failed to get user info:", err);
+        localStorage.removeItem("access_token");
+        setIsAuthenticated(false);
+        setUser(null);
+        throw err;
+      } finally {
+        isRefreshing = false;
+        refreshPromise = null;
+      }
+    })();
+
+    return refreshPromise;
   };
 
   const login = async (email: string, password: string): Promise<boolean> => {

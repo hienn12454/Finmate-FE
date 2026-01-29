@@ -106,6 +106,57 @@ export interface CreateTransactionRequest {
   excludeFromReport?: boolean;
 }
 
+export interface CreateMoneySourceRequest {
+  accountTypeId: string;
+  name: string;
+  icon?: string;
+  color?: string;
+  balance?: number;
+  currency?: string;
+}
+
+export interface GoalDto {
+  id: string;
+  userId: string;
+  title: string;
+  description?: string | null;
+  targetAmount: number;
+  currentAmount: number;
+  targetDate?: string | null;
+  status: string;
+  currency: string;
+  icon: string;
+  color: string;
+  isActive: boolean;
+  createdAt: string;
+  updatedAt: string;
+  progressPercentage: number;
+}
+
+export interface CreateGoalRequest {
+  title: string;
+  description?: string;
+  targetAmount: number;
+  currentAmount?: number;
+  targetDate?: string;
+  currency?: string;
+  icon?: string;
+  color?: string;
+}
+
+export interface UpdateGoalRequest {
+  title?: string;
+  description?: string;
+  targetAmount?: number;
+  currentAmount?: number;
+  targetDate?: string;
+  status?: string;
+  currency?: string;
+  icon?: string;
+  color?: string;
+  isActive?: boolean;
+}
+
 export const dashboardApi = {
   // Tổng quan thu/chi + thống kê theo danh mục
   getOverview: () => axiosClient.get<OverviewReportDto>("/reports/overview"),
@@ -136,5 +187,39 @@ export const dashboardApi = {
   // Tạo giao dịch mới
   createTransaction: (payload: CreateTransactionRequest) =>
     axiosClient.post<TransactionDto>("/transactions", payload),
+
+  // Tạo nguồn tiền mới
+  createMoneySource: (payload: CreateMoneySourceRequest) =>
+    axiosClient.post<MoneySourceDto>("/money-sources", payload),
+
+  // ========== Goals API ==========
+  // Lấy danh sách mục tiêu của user
+  getGoals: () => axiosClient.get<GoalDto[]>("/goals"),
+
+  // Tạo mục tiêu mới
+  createGoal: (payload: CreateGoalRequest) =>
+    axiosClient.post<GoalDto>("/goals", payload),
+
+  // Cập nhật mục tiêu
+  updateGoal: (goalId: string, payload: UpdateGoalRequest) =>
+    axiosClient.put<GoalDto>(`/goals/${goalId}`, payload),
+
+  // Xóa mục tiêu
+  deleteGoal: (goalId: string) =>
+    axiosClient.delete<{ success: boolean; message?: string }>(`/goals/${goalId}`),
+
+  // ========== Chart/Report API ==========
+  // Lấy dữ liệu chi tiêu theo thời gian (cho line chart)
+  getExpenseChartData: (startDate?: string, endDate?: string) =>
+    axiosClient.get<{
+      data: Array<{
+        date: string;
+        totalExpense: number;
+        totalIncome: number;
+        balance: number;
+      }>;
+    }>("/reports/expense-chart", {
+      params: startDate && endDate ? { startDate, endDate } : undefined,
+    }),
 };
 

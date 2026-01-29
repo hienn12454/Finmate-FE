@@ -1,7 +1,10 @@
 import { useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import LoginModal from "../components/LoginModal";
+import UpgradeModal from "../components/UpgradeModal";
+import AvatarDropdown from "../components/AvatarDropdown";
 import { useAuth } from "../hooks/useAuth";
+import { useAvatar } from "../hooks/useAvatar";
 import styles from "./Homepage.module.css";
 
 function scrollToSection(id: string) {
@@ -11,14 +14,47 @@ function scrollToSection(id: string) {
 
 export default function Homepage() {
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
+  const [isUpgradeModalOpen, setIsUpgradeModalOpen] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
-  const { isAuthenticated, user, signOut } = useAuth();
+  const { isAuthenticated, signOut, user, isLoading, refreshUser } = useAuth();
+  const {
+    avatarUrl,
+    displayName,
+    avatarBorderClass,
+    currentPlan,
+    premiumStatus,
+    planDisplayName,
+    planBadgeClass,
+  } = useAvatar(user);
+
+  // Refresh auth state when component mounts or location changes
+  useEffect(() => {
+    const token = localStorage.getItem("access_token");
+    if (token && !isAuthenticated && !isLoading) {
+      // Token exists but isAuthenticated is false, try to refresh
+      refreshUser().catch(() => {
+        // If refresh fails, token is invalid, clear it
+        localStorage.removeItem("access_token");
+      });
+    }
+  }, [location.pathname, isAuthenticated, isLoading, refreshUser]);
 
   const handleLogin = () => setIsLoginModalOpen(true);
 
-  const displayName =
-    user?.fullName || user?.email?.split("@")[0] || "bạn";
+  const handleUpgradeClick = (planId: string) => {
+    if (isAuthenticated) {
+      // Đã đăng nhập, chuyển đến trang thanh toán
+      navigate(`/payment?plan=${planId}`);
+      setIsUpgradeModalOpen(false);
+    } else {
+      // Chưa đăng nhập, mở modal login với redirect
+      setIsUpgradeModalOpen(false);
+      setIsLoginModalOpen(true);
+      // Lưu planId vào sessionStorage để sau khi login sẽ redirect
+      sessionStorage.setItem("upgradePlanId", planId);
+    }
+  };
 
   useEffect(() => {
     const scrollTo = (location.state as { scrollTo?: string } | null)?.scrollTo;
@@ -51,28 +87,62 @@ export default function Homepage() {
         </nav>
         {isAuthenticated ? (
           <div className={styles.headerRightAuth}>
-            <div className={styles.avatarSmall}>
-              {displayName.charAt(0).toUpperCase()}
-            </div>
+            <AvatarDropdown
+              avatarUrl={avatarUrl}
+              alt={displayName}
+              wrapperClassName={`${styles.avatarSmall} ${avatarBorderClass ? styles[avatarBorderClass] : ""}`}
+              imageClassName={styles.avatarImage}
+              menuLabel={displayName}
+              items={[
+                { label: "Dashboard", onClick: () => navigate("/dashboard") },
+                { label: "Đăng xuất", variant: "danger", onClick: () => signOut() },
+              ]}
+            />
             <span className={styles.userGreeting}>Xin chào, {displayName}</span>
-            <button
-              type="button"
-              className={styles.loginButton}
-              onClick={() => navigate("/dashboard")}
-            >
-              <span className={styles.buttonText}>Dashboard</span>
-            </button>
-            <button
-              type="button"
-              className={styles.upgradeButton}
-              onClick={() => signOut()}
-            >
-              <span className={styles.buttonText}>Đăng xuất</span>
-            </button>
+            {currentPlan && premiumStatus ? (
+              <div className={styles.premiumInfoContainer}>
+                <div className={styles.premiumInfo}>
+                  <span
+                    className={`${styles.currentPlanBadge} ${
+                      planBadgeClass ? styles[planBadgeClass] : ""
+                    }`}
+                  >
+                    {planDisplayName}
+                  </span>
+                  <div className={styles.premiumDates}>
+                    <span className={styles.premiumDate}>
+                      Mua: {premiumStatus.purchasedAt ? new Date(premiumStatus.purchasedAt).toLocaleDateString("vi-VN") : "N/A"}
+                    </span>
+                    <span className={styles.premiumDate}>
+                      Hết hạn: {premiumStatus.expiresAt ? new Date(premiumStatus.expiresAt).toLocaleDateString("vi-VN") : "N/A"}
+                    </span>
+                  </div>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setIsUpgradeModalOpen(true)}
+                  className={styles.upgradeTextButton}
+                >
+                  Nâng cấp
+                </button>
+              </div>
+            ) : (
+              <button
+                type="button"
+                onClick={() => setIsUpgradeModalOpen(true)}
+                className={styles.upgradeButton}
+              >
+                <span className={styles.buttonText}>Nâng cấp tài khoản</span>
+              </button>
+            )}
           </div>
         ) : (
           <div className={styles.headerRight}>
-            <button type="button" onClick={handleLogin} className={styles.upgradeButton}>
+            <button
+              type="button"
+              onClick={() => setIsUpgradeModalOpen(true)}
+              className={styles.upgradeButton}
+            >
               <span className={styles.buttonText}>Nâng cấp tài khoản</span>
             </button>
             <button type="button" onClick={handleLogin} className={styles.loginButton}>
@@ -206,7 +276,16 @@ export default function Homepage() {
         </div>
       </footer>
 
-      <LoginModal isOpen={isLoginModalOpen} onClose={() => setIsLoginModalOpen(false)} />
+      <LoginModal
+        isOpen={isLoginModalOpen}
+        onClose={() => setIsLoginModalOpen(false)}
+        redirectTo={sessionStorage.getItem("upgradePlanId") ? `/payment?plan=${sessionStorage.getItem("upgradePlanId")}` : undefined}
+      />
+      <UpgradeModal
+        isOpen={isUpgradeModalOpen}
+        onClose={() => setIsUpgradeModalOpen(false)}
+        onUpgradeClick={handleUpgradeClick}
+      />
     </div>
   );
 }

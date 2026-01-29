@@ -2,6 +2,11 @@ import { Route, Routes } from "react-router-dom";
 import Homepage from "../pages/Homepage";
 import Login from "../pages/Login";
 import Dashboard from "../pages/Dashboard";
+import AccountBalances from "../pages/AccountBalances";
+import GoalsPage from "../pages/GoalsPage";
+import TransactionsPage from "../pages/TransactionsPage";
+import ChartPage from "../pages/ChartPage";
+import PaymentPage from "../pages/PaymentPage";
 import PrivateRoute from "./PrivateRoute";
 import Support from "../pages/Support";
 import Blog from "../pages/Blog";
@@ -26,6 +31,46 @@ export default function AppRoutes() {
         element={
           <PrivateRoute>
             <Dashboard />
+          </PrivateRoute>
+        }
+      />
+      <Route
+        path="/accounts"
+        element={
+          <PrivateRoute>
+            <AccountBalances />
+          </PrivateRoute>
+        }
+      />
+      <Route
+        path="/goals"
+        element={
+          <PrivateRoute>
+            <GoalsPage />
+          </PrivateRoute>
+        }
+      />
+      <Route
+        path="/transactions"
+        element={
+          <PrivateRoute>
+            <TransactionsPage />
+          </PrivateRoute>
+        }
+      />
+      <Route
+        path="/chart"
+        element={
+          <PrivateRoute>
+            <ChartPage />
+          </PrivateRoute>
+        }
+      />
+      <Route
+        path="/payment"
+        element={
+          <PrivateRoute>
+            <PaymentPage />
           </PrivateRoute>
         }
       />

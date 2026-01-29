@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
 import styles from "./Login.module.css";
@@ -7,6 +7,7 @@ export default function Login() {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const isRegisterMode = searchParams.get("register") === "true";
+  const hasRedirected = useRef(false);
   
   const { login, register, isAuthenticated, isLoading, error } = useAuth();
   
@@ -18,10 +19,23 @@ export default function Login() {
   const [localError, setLocalError] = useState<string | null>(null);
 
   useEffect(() => {
-    if (isAuthenticated) {
-      navigate("/dashboard");
+    // Prevent multiple redirects
+    if (isAuthenticated && !hasRedirected.current && !isLoading) {
+      hasRedirected.current = true;
+      // Kiểm tra xem có redirect URL không
+      const redirect = searchParams.get("redirect");
+      const upgradePlanId = sessionStorage.getItem("upgradePlanId");
+      
+      if (upgradePlanId) {
+        sessionStorage.removeItem("upgradePlanId");
+        navigate(`/payment?plan=${upgradePlanId}`);
+      } else if (redirect) {
+        navigate(redirect);
+      } else {
+        navigate("/dashboard");
+      }
     }
-  }, [isAuthenticated, navigate]);
+  }, [isAuthenticated, isLoading, navigate, searchParams]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();

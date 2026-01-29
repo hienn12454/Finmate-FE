@@ -249,13 +249,45 @@
   z-index: 1;
 }
 
+/* ===== Tăng độ nổi bật cho chữ trên các trang marketing (Homepage, Support, Guides, Blog) ===== */
+
+.introduceTitle,
+.introduceTagline,
+.introduceDesc,
+.sectionTitle,
+.featureCard h3,
+.featureCard p,
+.benefitItem h4,
+.benefitItem p,
+.statItem h3,
+.statItem p,
+.userGreeting,
+.footerTagline,
+.footerContact,
+.footerLink,
+.title,
+.subtitle,
+.cardTitle,
+.cardSummary {
+  color: #f9fafb;
+  text-shadow: 0 0 10px rgba(15, 23, 42, 0.9);
+}
+
+.featureCard,
+.benefitItem,
+.statsSection,
+.hero,
+.grid {
+  color: #e5e7eb;
+}
+
 .header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   flex-wrap: wrap;
-  gap: 1rem;
-  padding: 1rem 2rem 1.25rem;
+  gap: 0.75rem 1rem;
+  padding: 0.85rem 1.5rem 1rem;
   background: rgba(0, 0, 0, 0.2);
   backdrop-filter: blur(14px);
   box-shadow: 0 2px 24px rgba(0, 0, 0, 0.12);
@@ -267,7 +299,7 @@
   animation: slideDown 0.5s ease-out;
   max-width: 100vw;
   box-sizing: border-box;
-  overflow-x: hidden;
+  overflow: visible;
   margin: 0 1rem;
   margin-top: 0.5rem;
 }
@@ -306,12 +338,12 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 52px;
-  height: 52px;
+  width: 46px;
+  height: 46px;
   border-radius: 50%;
   background: linear-gradient(135deg, #5d9caf, #ff8a85);
   color: white;
-  font-size: 1.4rem;
+  font-size: 1.25rem;
   font-weight: 800;
   flex-shrink: 0;
   box-shadow: 0 4px 12px rgba(93, 156, 175, 0.4);
@@ -367,7 +399,7 @@
 .nav {
   display: flex;
   align-items: center;
-  gap: 1.5rem;
+  gap: 1rem;
 }
 
 .navLink {
@@ -375,12 +407,12 @@
   align-items: center;
   justify-content: center;
   gap: 0.35rem;
-  min-height: 40px;
-  padding: 0.55rem 1rem;
+  min-height: 36px;
+  padding: 0.5rem 0.85rem;
   background: rgba(0, 0, 0, 0.28);
   border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: 12px;
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   font-weight: 700;
   letter-spacing: 0.5px;
   line-height: 1;
@@ -426,6 +458,46 @@
   display: flex;
   align-items: center;
   gap: 0.9rem;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  min-width: 0;
+}
+
+.userGreeting {
+  max-width: 32vw;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+@media (max-width: 1200px) {
+  .header {
+    padding: 0.9rem 1.25rem 1rem;
+    gap: 0.75rem;
+  }
+
+  .nav {
+    gap: 1rem;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .headerRightAuth {
+    gap: 0.6rem;
+  }
+
+  .userGreeting {
+    max-width: 40vw;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .upgradeButton,
+  .loginButton {
+    padding: 0.65rem 1.2rem;
+    font-size: 0.95rem;
+  }
 }
 
 .userGreeting {
@@ -435,9 +507,9 @@
 }
 
 .avatarSmall {
-  width: 34px;
-  height: 34px;
-  border-radius: 999px;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
   background: linear-gradient(135deg, #5d9caf, #ff8a85);
   display: flex;
   align-items: center;
@@ -447,6 +519,19 @@
   font-size: 1rem;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.45);
   flex-shrink: 0;
+  overflow: hidden;
+  position: relative;
+  border: 2px solid rgba(255, 255, 255, 0.7);
+}
+
+.avatarSmall .avatarImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  border-radius: 50%;
+  transform: none !important;
+  animation: none !important;
 }
 
 .upgradeButton,
@@ -984,6 +1069,925 @@
 .footer p {
   margin: 0;
   font-size: 0.9rem;
+}
+
+/* Premium Info Styles - Import từ Dashboard.module.css */
+.premiumInfoContainer {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.5rem 0.75rem;
+  background: rgba(0, 0, 0, 0.25);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  backdrop-filter: blur(10px);
+}
+
+.premiumInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.premiumDates {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.premiumDate {
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.7);
+  font-weight: 400;
+}
+
+.currentPlanBadge {
+  background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+  padding: 0.25rem 0.5rem;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: white;
+}
+
+.currentPlanBadgePurple {
+  background: radial-gradient(circle at 0% 0%, rgba(244, 114, 182, 0.4), transparent 55%),
+    radial-gradient(circle at 100% 100%, rgba(129, 140, 248, 0.45), transparent 55%),
+    linear-gradient(135deg, #a855f7, #7c3aed);
+  box-shadow:
+    0 0 14px rgba(129, 140, 248, 0.7),
+    0 0 30px rgba(168, 85, 247, 0.5);
+}
+
+.currentPlanBadgeGold {
+  background: radial-gradient(circle at 0% 0%, rgba(250, 204, 21, 0.5), transparent 55%),
+    radial-gradient(circle at 100% 100%, rgba(253, 224, 71, 0.5), transparent 55%),
+    linear-gradient(135deg, #facc15, #f97316);
+  box-shadow:
+    0 0 14px rgba(250, 204, 21, 0.8),
+    0 0 30px rgba(234, 179, 8, 0.6);
+}
+
+.upgradeTextButton {
+  padding: 0.5rem 1rem;
+  background: rgba(0, 0, 0, 0.35);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 8px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.92);
+  cursor: pointer;
+  transition: all 0.25s ease;
+  backdrop-filter: blur(10px);
+  white-space: nowrap;
+}
+
+.upgradeTextButton:hover {
+  background: rgba(0, 0, 0, 0.5);
+  border-color: rgba(255, 255, 255, 0.25);
+  transform: translateY(-1px);
+}
+
+/* Premium border styles cho avatarSmall trên Homepage */
+.avatarSmall.premium-border-1month {
+  border: 4px solid #3b82f6;
+  box-shadow: 
+    0 0 0 3px rgba(59, 130, 246, 0.4),
+    0 0 0 6px rgba(59, 130, 246, 0.2),
+    0 4px 20px rgba(59, 130, 246, 0.5),
+    0 0 30px rgba(59, 130, 246, 0.3);
+  animation: pulseBlue 2s ease-in-out infinite;
+  overflow: visible;
+}
+
+.avatarSmall.premium-border-6month {
+  position: relative;
+  border: 4px solid transparent;
+  background: 
+    conic-gradient(
+      from 0deg,
+      #a855f7 0deg,
+      #9333ea 60deg,
+      #7c3aed 120deg,
+      #9333ea 180deg,
+      #a855f7 240deg,
+      #8b5cf6 300deg,
+      #a855f7 360deg
+    ) padding-box,
+    conic-gradient(
+      from 0deg,
+      transparent 0deg,
+      rgba(168, 85, 247, 0.8) 45deg,
+      transparent 90deg,
+      rgba(147, 51, 234, 0.8) 135deg,
+      transparent 180deg,
+      rgba(124, 58, 237, 0.8) 225deg,
+      transparent 270deg,
+      rgba(168, 85, 247, 0.8) 315deg,
+      transparent 360deg
+    ) border-box;
+  box-shadow: 
+    0 0 0 3px rgba(139, 92, 246, 0.4),
+    0 0 0 6px rgba(139, 92, 246, 0.2),
+    0 4px 20px rgba(139, 92, 246, 0.6),
+    0 0 40px rgba(139, 92, 246, 0.5),
+    0 0 60px rgba(168, 85, 247, 0.4),
+    inset 0 0 20px rgba(139, 92, 246, 0.1);
+  animation: rotatePurpleBorder 3s linear infinite, pulsePurple 2s ease-in-out infinite, sparklePurple 3s linear infinite;
+  overflow: visible;
+}
+
+.avatarSmall.premium-border-6month::before {
+  content: '';
+  position: absolute;
+  top: -8px;
+  left: -8px;
+  right: -8px;
+  bottom: -8px;
+  border-radius: 50%;
+  background: 
+    conic-gradient(
+      from 0deg,
+      transparent 0deg,
+      rgba(168, 85, 247, 0.9) 30deg,
+      rgba(147, 51, 234, 0.8) 60deg,
+      transparent 90deg,
+      rgba(124, 58, 237, 0.9) 120deg,
+      rgba(168, 85, 247, 0.8) 150deg,
+      transparent 180deg,
+      rgba(139, 92, 246, 0.9) 210deg,
+      rgba(147, 51, 234, 0.8) 240deg,
+      transparent 270deg,
+      rgba(168, 85, 247, 0.9) 300deg,
+      rgba(124, 58, 237, 0.8) 330deg,
+      transparent 360deg
+    );
+  animation: rotatePurpleBorder 2.5s linear infinite;
+  pointer-events: none;
+  z-index: -1;
+  filter: blur(1px);
+}
+
+.avatarSmall.premium-border-6month::after {
+  content: '';
+  position: absolute;
+  top: -12px;
+  left: -12px;
+  right: -12px;
+  bottom: -12px;
+  border-radius: 50%;
+  background: 
+    radial-gradient(circle at 30% 30%, rgba(168, 85, 247, 0.6) 0%, transparent 40%),
+    radial-gradient(circle at 70% 70%, rgba(147, 51, 234, 0.6) 0%, transparent 40%),
+    radial-gradient(circle at 50% 50%, rgba(124, 58, 237, 0.5) 0%, transparent 50%),
+    conic-gradient(
+      from 180deg,
+      transparent 0deg,
+      rgba(168, 85, 247, 0.5) 60deg,
+      transparent 120deg,
+      rgba(147, 51, 234, 0.5) 180deg,
+      transparent 240deg,
+      rgba(124, 58, 237, 0.5) 300deg,
+      transparent 360deg
+    );
+  animation: rotatePurpleBorder 4s linear infinite reverse, sparkleRotate 3s ease-in-out infinite;
+  pointer-events: none;
+  z-index: -2;
+  filter: blur(2px);
+}
+
+.avatarSmall.premium-border-1year {
+  position: relative;
+  border: 5px solid transparent;
+  background: 
+    linear-gradient(#0a0e27, #0a0e27) padding-box,
+    conic-gradient(
+      from 0deg,
+      #fbbf24 0deg,
+      #f59e0b 15deg,
+      #fbbf24 30deg,
+      #fcd34d 45deg,
+      #fbbf24 60deg,
+      #f59e0b 75deg,
+      #fbbf24 90deg,
+      #fcd34d 105deg,
+      #fbbf24 120deg,
+      #f59e0b 135deg,
+      #fbbf24 150deg,
+      #fcd34d 165deg,
+      #fbbf24 180deg,
+      #f59e0b 195deg,
+      #fbbf24 210deg,
+      #fcd34d 225deg,
+      #fbbf24 240deg,
+      #f59e0b 255deg,
+      #fbbf24 270deg,
+      #fcd34d 285deg,
+      #fbbf24 300deg,
+      #f59e0b 315deg,
+      #fbbf24 330deg,
+      #fcd34d 345deg,
+      #fbbf24 360deg
+    ) border-box;
+  box-shadow: 
+    0 0 0 2px rgba(251, 191, 36, 0.6),
+    0 0 0 4px rgba(245, 158, 11, 0.4),
+    0 0 0 6px rgba(251, 191, 36, 0.3),
+    0 4px 25px rgba(251, 191, 36, 0.8),
+    0 0 50px rgba(251, 191, 36, 0.7),
+    0 0 70px rgba(255, 215, 0, 0.6),
+    0 0 90px rgba(245, 158, 11, 0.5),
+    inset 0 0 25px rgba(251, 191, 36, 0.25),
+    inset 0 0 50px rgba(255, 215, 0, 0.15);
+  animation: pulseGold 2s ease-in-out infinite, sparkleGold 3s linear infinite;
+  overflow: visible;
+  transform: none !important;
+}
+
+/* Viền trong mỏng và tia chớp */
+.avatarSmall.premium-border-1year::before {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 215, 0, 0.8);
+  pointer-events: none;
+  z-index: 1;
+  box-shadow: 
+    inset 0 0 8px rgba(255, 215, 0, 0.4),
+    0 0 12px rgba(255, 215, 0, 0.3);
+  background: 
+    radial-gradient(circle at 30% 20%, rgba(255, 255, 255, 0.9) 0%, rgba(255, 215, 0, 0.8) 15%, transparent 30%),
+    radial-gradient(circle at 70% 30%, rgba(255, 255, 255, 0.9) 0%, rgba(255, 223, 0, 0.8) 15%, transparent 30%),
+    radial-gradient(circle at 50% 10%, rgba(255, 255, 255, 0.95) 0%, rgba(251, 191, 36, 0.9) 20%, transparent 35%);
+  animation: lightningFlash 1.5s ease-in-out infinite;
+}
+
+/* Các điểm nhọn (blades/spikes) xung quanh viền và hạt sáng */
+.avatarSmall.premium-border-1year::after {
+  content: '';
+  position: absolute;
+  top: -18px;
+  left: -18px;
+  right: -18px;
+  bottom: -18px;
+  border-radius: 50%;
+  background: 
+    /* Điểm nhọn ở 12 giờ */
+    radial-gradient(circle at 50% 0%, rgba(255, 215, 0, 0.9) 0%, rgba(255, 215, 0, 0.9) 7%, transparent 7%),
+    /* Điểm nhọn ở 3 giờ */
+    radial-gradient(circle at 100% 50%, rgba(255, 215, 0, 0.9) 0%, rgba(255, 215, 0, 0.9) 7%, transparent 7%),
+    /* Điểm nhọn ở 6 giờ */
+    radial-gradient(circle at 50% 100%, rgba(255, 215, 0, 0.9) 0%, rgba(255, 215, 0, 0.9) 7%, transparent 7%),
+    /* Điểm nhọn ở 9 giờ */
+    radial-gradient(circle at 0% 50%, rgba(255, 215, 0, 0.9) 0%, rgba(255, 215, 0, 0.9) 7%, transparent 7%),
+    /* Điểm nhọn ở 1:30 */
+    radial-gradient(circle at 75% 13%, rgba(251, 191, 36, 0.85) 0%, rgba(251, 191, 36, 0.85) 5%, transparent 5%),
+    /* Điểm nhọn ở 4:30 */
+    radial-gradient(circle at 93% 75%, rgba(251, 191, 36, 0.85) 0%, rgba(251, 191, 36, 0.85) 5%, transparent 5%),
+    /* Điểm nhọn ở 7:30 */
+    radial-gradient(circle at 75% 93%, rgba(251, 191, 36, 0.85) 0%, rgba(251, 191, 36, 0.85) 5%, transparent 5%),
+    /* Điểm nhọn ở 10:30 */
+    radial-gradient(circle at 25% 13%, rgba(251, 191, 36, 0.85) 0%, rgba(251, 191, 36, 0.85) 5%, transparent 5%),
+    /* Các điểm nhọn nhỏ hơn */
+    radial-gradient(circle at 87% 25%, rgba(245, 158, 11, 0.8) 0%, rgba(245, 158, 11, 0.8) 4%, transparent 4%),
+    radial-gradient(circle at 87% 75%, rgba(245, 158, 11, 0.8) 0%, rgba(245, 158, 11, 0.8) 4%, transparent 4%),
+    radial-gradient(circle at 13% 25%, rgba(245, 158, 11, 0.8) 0%, rgba(245, 158, 11, 0.8) 4%, transparent 4%),
+    radial-gradient(circle at 13% 75%, rgba(245, 158, 11, 0.8) 0%, rgba(245, 158, 11, 0.8) 4%, transparent 4%),
+    /* Hạt sáng lấp lánh */
+    radial-gradient(circle at 30% 20%, rgba(255, 255, 255, 0.9) 0%, transparent 2.5%),
+    radial-gradient(circle at 70% 30%, rgba(255, 255, 255, 0.9) 0%, transparent 2.5%),
+    radial-gradient(circle at 50% 10%, rgba(255, 255, 255, 0.95) 0%, transparent 3%),
+    radial-gradient(circle at 20% 50%, rgba(255, 255, 255, 0.9) 0%, transparent 2.5%),
+    radial-gradient(circle at 80% 50%, rgba(255, 255, 255, 0.9) 0%, transparent 2.5%),
+    radial-gradient(circle at 30% 80%, rgba(255, 255, 255, 0.9) 0%, transparent 2.5%),
+    radial-gradient(circle at 70% 80%, rgba(255, 255, 255, 0.9) 0%, transparent 2.5%),
+    radial-gradient(circle at 50% 90%, rgba(255, 255, 255, 0.95) 0%, transparent 3%);
+  pointer-events: none;
+  z-index: -1;
+  animation: sparkleRotate 3s linear infinite;
+  filter: blur(0.5px);
+}
+
+/* Hiệu ứng tia chớp vàng cho gói 1 năm - thiên thần */
+.avatarSmall.premium-border-1year::before {
+  content: '';
+  position: absolute;
+  top: -16px;
+  left: -16px;
+  right: -16px;
+  bottom: -16px;
+  border-radius: 50%;
+  background: 
+    radial-gradient(circle at 30% 20%, rgba(255, 255, 255, 0.9) 0%, rgba(255, 215, 0, 0.8) 15%, transparent 30%),
+    radial-gradient(circle at 70% 30%, rgba(255, 255, 255, 0.9) 0%, rgba(255, 223, 0, 0.8) 15%, transparent 30%),
+    radial-gradient(circle at 50% 10%, rgba(255, 255, 255, 0.95) 0%, rgba(251, 191, 36, 0.9) 20%, transparent 35%),
+    conic-gradient(
+      from 0deg,
+      transparent 0deg,
+      rgba(255, 255, 255, 0.95) 5deg,
+      rgba(255, 215, 0, 1) 10deg,
+      rgba(255, 255, 255, 0.95) 15deg,
+      transparent 20deg,
+      rgba(255, 255, 255, 0.95) 45deg,
+      rgba(255, 223, 0, 1) 50deg,
+      rgba(255, 255, 255, 0.95) 55deg,
+      transparent 60deg,
+      rgba(255, 255, 255, 0.95) 85deg,
+      rgba(251, 191, 36, 1) 90deg,
+      rgba(255, 255, 255, 0.95) 95deg,
+      transparent 100deg,
+      rgba(255, 255, 255, 0.95) 125deg,
+      rgba(245, 158, 11, 1) 130deg,
+      rgba(255, 255, 255, 0.95) 135deg,
+      transparent 140deg,
+      rgba(255, 255, 255, 0.95) 165deg,
+      rgba(255, 215, 0, 1) 170deg,
+      rgba(255, 255, 255, 0.95) 175deg,
+      transparent 180deg,
+      rgba(255, 255, 255, 0.95) 205deg,
+      rgba(255, 223, 0, 1) 210deg,
+      rgba(255, 255, 255, 0.95) 215deg,
+      transparent 220deg,
+      rgba(255, 255, 255, 0.95) 245deg,
+      rgba(251, 191, 36, 1) 250deg,
+      rgba(255, 255, 255, 0.95) 255deg,
+      transparent 260deg,
+      rgba(255, 255, 255, 0.95) 285deg,
+      rgba(245, 158, 11, 1) 290deg,
+      rgba(255, 255, 255, 0.95) 295deg,
+      transparent 300deg,
+      rgba(255, 255, 255, 0.95) 325deg,
+      rgba(255, 215, 0, 1) 330deg,
+      rgba(255, 255, 255, 0.95) 335deg,
+      transparent 340deg,
+      rgba(255, 255, 255, 0.95) 365deg,
+      transparent 360deg
+    );
+  animation: lightningFlash 1.5s ease-in-out infinite, rotateGoldBorder 3s linear infinite;
+  pointer-events: none;
+  z-index: -1;
+  filter: blur(0.5px);
+}
+
+.avatarSmall.premium-border-1year::after {
+  content: '';
+  position: absolute;
+  top: -14px;
+  left: -14px;
+  right: -14px;
+  bottom: -14px;
+  border-radius: 50%;
+  background: 
+    radial-gradient(circle at 25% 25%, rgba(255, 215, 0, 0.7) 0%, transparent 35%),
+    radial-gradient(circle at 75% 75%, rgba(255, 193, 7, 0.7) 0%, transparent 35%),
+    radial-gradient(circle at 50% 50%, rgba(251, 191, 36, 0.6) 0%, transparent 45%),
+    radial-gradient(circle at 10% 50%, rgba(245, 158, 11, 0.6) 0%, transparent 40%),
+    radial-gradient(circle at 90% 50%, rgba(255, 223, 0, 0.6) 0%, transparent 40%),
+    conic-gradient(
+      from 90deg,
+      transparent 0deg,
+      rgba(255, 215, 0, 0.6) 45deg,
+      transparent 90deg,
+      rgba(251, 191, 36, 0.6) 135deg,
+      transparent 180deg,
+      rgba(245, 158, 11, 0.6) 225deg,
+      transparent 270deg,
+      rgba(255, 223, 0, 0.6) 315deg,
+      transparent 360deg
+    );
+  animation: sparkleRotate 2.5s ease-in-out infinite;
+  pointer-events: none;
+  z-index: -2;
+  filter: blur(2.5px);
+}
+
+/* Hiệu ứng lông vũ vàng rơi xuống cho gói 1 năm - đôi cánh thiên thần */
+.avatarSmall.premium-border-1year {
+  overflow: visible;
+  transform: none !important;
+}
+
+.avatarSmall.premium-border-1year .feather {
+  position: absolute;
+  width: 16px;
+  height: 24px;
+  background: 
+    linear-gradient(180deg, 
+      rgba(255, 255, 255, 1) 0%,
+      rgba(255, 255, 200, 0.98) 5%,
+      rgba(255, 240, 100, 0.95) 10%,
+      rgba(255, 215, 0, 0.95) 20%,
+      rgba(255, 200, 50, 0.9) 30%,
+      rgba(255, 215, 0, 0.9) 40%,
+      rgba(251, 191, 36, 0.85) 50%,
+      rgba(255, 223, 0, 0.85) 60%,
+      rgba(255, 215, 0, 0.9) 70%,
+      rgba(255, 200, 50, 0.9) 80%,
+      rgba(255, 215, 0, 0.95) 90%,
+      rgba(255, 240, 100, 0.95) 95%,
+      rgba(255, 255, 200, 0.98) 98%,
+      rgba(255, 255, 255, 1) 100%
+    ),
+    radial-gradient(ellipse at 50% 30%, rgba(255, 255, 255, 0.8) 0%, transparent 50%);
+  clip-path: polygon(
+    /* Cấu trúc lông vũ chi tiết với các sợi lông tơ */
+    50% 0%,
+    52% 3%,
+    55% 8%,
+    58% 12%,
+    60% 18%,
+    62% 25%,
+    63% 32%,
+    64% 40%,
+    63% 48%,
+    61% 55%,
+    58% 62%,
+    55% 68%,
+    52% 74%,
+    50% 80%,
+    48% 85%,
+    46% 90%,
+    45% 95%,
+    50% 100%,
+    55% 95%,
+    54% 90%,
+    52% 85%,
+    50% 80%,
+    48% 74%,
+    45% 68%,
+    42% 62%,
+    39% 55%,
+    37% 48%,
+    36% 40%,
+    37% 32%,
+    38% 25%,
+    40% 18%,
+    42% 12%,
+    45% 8%,
+    48% 3%
+  );
+  opacity: 0;
+  pointer-events: none;
+  z-index: 10;
+  box-shadow: 
+    0 0 7px rgba(255, 215, 0, 0.9),
+    0 0 10px rgba(255, 200, 50, 0.7),
+    0 0 14px rgba(251, 191, 36, 0.5),
+    0 2px 3px rgba(255, 215, 0, 0.6),
+    inset 0 0 8px rgba(255, 255, 255, 0.3);
+  filter: 
+    drop-shadow(0 0 5px rgba(255, 215, 0, 1))
+    drop-shadow(0 0 8px rgba(255, 200, 50, 0.8))
+    drop-shadow(0 2px 5px rgba(251, 191, 36, 0.7))
+    brightness(1.1);
+  animation: featherFall 4s ease-in infinite;
+  transform-origin: center top;
+}
+
+/* Các hạt lấp lánh xung quanh lông vũ */
+.avatarSmall.premium-border-1year .feather::before {
+  content: '';
+  position: absolute;
+  width: 2.5px;
+  height: 2.5px;
+  background: radial-gradient(circle, rgba(255, 255, 255, 1) 0%, rgba(255, 215, 0, 0.8) 50%, transparent 100%);
+  border-radius: 50%;
+  top: 20%;
+  left: -3px;
+  box-shadow: 
+    0 0 3px rgba(255, 215, 0, 1),
+    0 0 6px rgba(255, 200, 50, 0.8),
+    3px 6px 0 0 rgba(255, 215, 0, 0.6),
+    -2px 10px 0 0 rgba(255, 240, 100, 0.5),
+    4px 14px 0 0 rgba(251, 191, 36, 0.4),
+    -1px 18px 0 0 rgba(255, 223, 0, 0.5);
+  animation: sparkleFloat 2s ease-in-out infinite;
+  opacity: 0;
+}
+
+.avatarSmall.premium-border-1year .feather::after {
+  content: '';
+  position: absolute;
+  width: 2px;
+  height: 2px;
+  background: radial-gradient(circle, rgba(255, 255, 255, 1) 0%, rgba(255, 215, 0, 0.9) 50%, transparent 100%);
+  border-radius: 50%;
+  top: 40%;
+  right: -2px;
+  box-shadow: 
+    0 0 2px rgba(255, 215, 0, 1),
+    0 0 5px rgba(255, 200, 50, 0.7),
+    -3px 5px 0 0 rgba(255, 215, 0, 0.5),
+    2px 8px 0 0 rgba(255, 240, 100, 0.4),
+    -4px 12px 0 0 rgba(251, 191, 36, 0.3);
+  animation: sparkleFloat 2.5s ease-in-out infinite 0.5s;
+  opacity: 0;
+}
+
+.avatarSmall.premium-border-1year .feather:nth-child(1) {
+  left: 20%;
+  animation-delay: 0s;
+}
+
+.avatarSmall.premium-border-1year .feather:nth-child(1)::before {
+  animation-delay: 0s;
+}
+
+.avatarSmall.premium-border-1year .feather:nth-child(1)::after {
+  animation-delay: 0.3s;
+}
+
+.avatarSmall.premium-border-1year .feather:nth-child(2) {
+  left: 40%;
+  animation-delay: 0.8s;
+}
+
+.avatarSmall.premium-border-1year .feather:nth-child(2)::before {
+  animation-delay: 0.8s;
+}
+
+.avatarSmall.premium-border-1year .feather:nth-child(2)::after {
+  animation-delay: 1.1s;
+}
+
+.avatarSmall.premium-border-1year .feather:nth-child(3) {
+  left: 60%;
+  animation-delay: 1.6s;
+}
+
+.avatarSmall.premium-border-1year .feather:nth-child(3)::before {
+  animation-delay: 1.6s;
+}
+
+.avatarSmall.premium-border-1year .feather:nth-child(3)::after {
+  animation-delay: 1.9s;
+}
+
+.avatarSmall.premium-border-1year .feather:nth-child(4) {
+  left: 80%;
+  animation-delay: 2.4s;
+}
+
+.avatarSmall.premium-border-1year .feather:nth-child(4)::before {
+  animation-delay: 2.4s;
+}
+
+.avatarSmall.premium-border-1year .feather:nth-child(4)::after {
+  animation-delay: 2.7s;
+}
+
+.avatarSmall.premium-border-1year .feather:nth-child(5) {
+  left: 30%;
+  animation-delay: 0.4s;
+}
+
+.avatarSmall.premium-border-1year .feather:nth-child(5)::before {
+  animation-delay: 0.4s;
+}
+
+.avatarSmall.premium-border-1year .feather:nth-child(5)::after {
+  animation-delay: 0.7s;
+}
+
+.avatarSmall.premium-border-1year .feather:nth-child(6) {
+  left: 70%;
+  animation-delay: 1.2s;
+}
+
+.avatarSmall.premium-border-1year .feather:nth-child(6)::before {
+  animation-delay: 1.2s;
+}
+
+.avatarSmall.premium-border-1year .feather:nth-child(6)::after {
+  animation-delay: 1.5s;
+}
+
+.avatarSmall.premium-border-1year .feather:nth-child(7) {
+  left: 50%;
+  animation-delay: 2s;
+}
+
+.avatarSmall.premium-border-1year .feather:nth-child(7)::before {
+  animation-delay: 2s;
+}
+
+.avatarSmall.premium-border-1year .feather:nth-child(7)::after {
+  animation-delay: 2.3s;
+}
+
+.avatarSmall.premium-border-1year .feather:nth-child(8) {
+  left: 10%;
+  animation-delay: 2.8s;
+}
+
+.avatarSmall.premium-border-1year .feather:nth-child(8)::before {
+  animation-delay: 2.8s;
+}
+
+.avatarSmall.premium-border-1year .feather:nth-child(8)::after {
+  animation-delay: 3.1s;
+}
+
+.avatarSmall.premium-border-1year .feather:nth-child(9) {
+  left: 90%;
+  animation-delay: 3.2s;
+}
+
+.avatarSmall.premium-border-1year .feather:nth-child(9)::before {
+  animation-delay: 3.2s;
+}
+
+.avatarSmall.premium-border-1year .feather:nth-child(9)::after {
+  animation-delay: 3.5s;
+}
+
+.avatarSmall.premium-border-1year .feather:nth-child(10) {
+  left: 15%;
+  animation-delay: 0.6s;
+}
+
+.avatarSmall.premium-border-1year .feather:nth-child(10)::before {
+  animation-delay: 0.6s;
+}
+
+.avatarSmall.premium-border-1year .feather:nth-child(10)::after {
+  animation-delay: 0.9s;
+}
+
+@keyframes featherFallLeft {
+  0% {
+    opacity: 1;
+    transform: translateX(0) translateY(0) rotate(-25deg) scale(1);
+    filter: 
+      drop-shadow(0 0 10px rgba(255, 215, 0, 1))
+      drop-shadow(0 0 15px rgba(255, 200, 50, 0.8))
+      drop-shadow(0 2px 8px rgba(251, 191, 36, 0.7))
+      brightness(1.2);
+  }
+  20% {
+    transform: translateX(12px) translateY(18px) rotate(-15deg) scale(0.95);
+    filter: 
+      drop-shadow(0 0 9px rgba(255, 215, 0, 0.95))
+      drop-shadow(0 0 14px rgba(255, 200, 50, 0.75))
+      brightness(1.15);
+  }
+  40% {
+    transform: translateX(20px) translateY(35px) rotate(-5deg) scale(0.9);
+    filter: 
+      drop-shadow(0 0 8px rgba(255, 215, 0, 0.9))
+      drop-shadow(0 0 12px rgba(255, 200, 50, 0.7))
+      brightness(1.1);
+  }
+  60% {
+    transform: translateX(25px) translateY(55px) rotate(5deg) scale(0.85);
+    opacity: 0.85;
+    filter: 
+      drop-shadow(0 0 7px rgba(255, 215, 0, 0.85))
+      drop-shadow(0 0 11px rgba(255, 200, 50, 0.65))
+      brightness(1.05);
+  }
+  80% {
+    transform: translateX(28px) translateY(75px) rotate(15deg) scale(0.75);
+    opacity: 0.6;
+    filter: 
+      drop-shadow(0 0 5px rgba(255, 215, 0, 0.65))
+      drop-shadow(0 0 8px rgba(255, 200, 50, 0.5))
+      brightness(0.95);
+  }
+  100% {
+    transform: translateX(32px) translateY(110px) rotate(25deg) scale(0.6);
+    opacity: 0;
+    filter: 
+      drop-shadow(0 0 2px rgba(255, 215, 0, 0.3))
+      brightness(0.8);
+  }
+}
+
+@keyframes featherFallRight {
+  0% {
+    opacity: 1;
+    transform: translateX(0) translateY(0) rotate(30deg) scale(1);
+    filter: 
+      drop-shadow(0 0 10px rgba(255, 215, 0, 1))
+      drop-shadow(0 0 15px rgba(255, 200, 50, 0.8))
+      drop-shadow(0 2px 8px rgba(251, 191, 36, 0.7))
+      brightness(1.2);
+  }
+  20% {
+    transform: translateX(-12px) translateY(18px) rotate(20deg) scale(0.95);
+    filter: 
+      drop-shadow(0 0 9px rgba(255, 215, 0, 0.95))
+      drop-shadow(0 0 14px rgba(255, 200, 50, 0.75))
+      brightness(1.15);
+  }
+  40% {
+    transform: translateX(-20px) translateY(35px) rotate(10deg) scale(0.9);
+    filter: 
+      drop-shadow(0 0 8px rgba(255, 215, 0, 0.9))
+      drop-shadow(0 0 12px rgba(255, 200, 50, 0.7))
+      brightness(1.1);
+  }
+  60% {
+    transform: translateX(-25px) translateY(55px) rotate(0deg) scale(0.85);
+    opacity: 0.85;
+    filter: 
+      drop-shadow(0 0 7px rgba(255, 215, 0, 0.85))
+      drop-shadow(0 0 11px rgba(255, 200, 50, 0.65))
+      brightness(1.05);
+  }
+  80% {
+    transform: translateX(-28px) translateY(75px) rotate(-10deg) scale(0.75);
+    opacity: 0.6;
+    filter: 
+      drop-shadow(0 0 5px rgba(255, 215, 0, 0.65))
+      drop-shadow(0 0 8px rgba(255, 200, 50, 0.5))
+      brightness(0.95);
+  }
+  100% {
+    transform: translateX(-32px) translateY(110px) rotate(-20deg) scale(0.6);
+    opacity: 0;
+    filter: 
+      drop-shadow(0 0 2px rgba(255, 215, 0, 0.3))
+      brightness(0.8);
+  }
+}
+
+@keyframes sparkleFloat {
+  0%, 100% {
+    opacity: 0;
+    transform: translate(0, 0) scale(0.5);
+  }
+  50% {
+    opacity: 1;
+    transform: translate(2px, -3px) scale(1);
+  }
+}
+
+@keyframes lightningFlash {
+  0%, 100% {
+    opacity: 0.6;
+    filter: blur(0.5px) brightness(1);
+  }
+  25% {
+    opacity: 1;
+    filter: blur(0.3px) brightness(1.5);
+  }
+  50% {
+    opacity: 0.8;
+    filter: blur(0.5px) brightness(1.2);
+  }
+  75% {
+    opacity: 1;
+    filter: blur(0.3px) brightness(1.6);
+  }
+}
+
+.avatarSmall.premium-border-6month .avatarImage,
+.avatarSmall.premium-border-1year .avatarImage,
+.avatarSmall.premium-border-1month .avatarImage {
+  border-radius: 50%;
+  overflow: hidden;
+  transform: none !important;
+  animation: none !important;
+  position: relative;
+  z-index: 2;
+  will-change: auto;
+}
+
+/* Đảm bảo avatar image không bị ảnh hưởng bởi transform của parent */
+.avatarSmall.premium-border-1year > .avatarImage {
+  transform: none !important;
+  animation: none !important;
+  will-change: auto !important;
+}
+
+/* Animations cho premium borders */
+@keyframes pulseBlue {
+  0%, 100% {
+    box-shadow: 
+      0 0 0 3px rgba(59, 130, 246, 0.4),
+      0 0 0 6px rgba(59, 130, 246, 0.2),
+      0 4px 20px rgba(59, 130, 246, 0.5),
+      0 0 30px rgba(59, 130, 246, 0.3);
+  }
+  50% {
+    box-shadow: 
+      0 0 0 5px rgba(59, 130, 246, 0.6),
+      0 0 0 10px rgba(59, 130, 246, 0.3),
+      0 4px 25px rgba(59, 130, 246, 0.7),
+      0 0 40px rgba(59, 130, 246, 0.5);
+  }
+}
+
+@keyframes pulsePurple {
+  0%, 100% {
+    box-shadow: 
+      0 0 0 3px rgba(139, 92, 246, 0.4),
+      0 0 0 6px rgba(139, 92, 246, 0.2),
+      0 4px 20px rgba(139, 92, 246, 0.6),
+      0 0 40px rgba(139, 92, 246, 0.5),
+      0 0 60px rgba(168, 85, 247, 0.4),
+      inset 0 0 20px rgba(139, 92, 246, 0.1);
+  }
+  50% {
+    box-shadow: 
+      0 0 0 5px rgba(139, 92, 246, 0.6),
+      0 0 0 10px rgba(139, 92, 246, 0.4),
+      0 4px 25px rgba(139, 92, 246, 0.8),
+      0 0 50px rgba(139, 92, 246, 0.7),
+      0 0 70px rgba(168, 85, 247, 0.6),
+      inset 0 0 25px rgba(139, 92, 246, 0.2);
+  }
+}
+
+@keyframes pulseGold {
+  0%, 100% {
+    box-shadow: 
+      0 0 0 3px rgba(251, 191, 36, 0.5),
+      0 0 0 6px rgba(251, 191, 36, 0.3),
+      0 4px 25px rgba(251, 191, 36, 0.7),
+      0 0 50px rgba(251, 191, 36, 0.6),
+      0 0 70px rgba(255, 215, 0, 0.5),
+      0 0 90px rgba(245, 158, 11, 0.4),
+      inset 0 0 25px rgba(251, 191, 36, 0.2);
+  }
+  50% {
+    box-shadow: 
+      0 0 0 5px rgba(251, 191, 36, 0.7),
+      0 0 0 10px rgba(251, 191, 36, 0.5),
+      0 4px 30px rgba(251, 191, 36, 0.9),
+      0 0 60px rgba(251, 191, 36, 0.8),
+      0 0 80px rgba(255, 215, 0, 0.7),
+      0 0 100px rgba(245, 158, 11, 0.6),
+      inset 0 0 30px rgba(251, 191, 36, 0.3);
+  }
+}
+
+@keyframes sparklePurple {
+  0%, 100% {
+    filter: brightness(1) saturate(1) drop-shadow(0 0 8px rgba(168, 85, 247, 0.6));
+  }
+  25% {
+    filter: brightness(1.3) saturate(1.4) drop-shadow(0 0 12px rgba(168, 85, 247, 0.8));
+  }
+  50% {
+    filter: brightness(1.2) saturate(1.3) drop-shadow(0 0 10px rgba(147, 51, 234, 0.7));
+  }
+  75% {
+    filter: brightness(1.25) saturate(1.35) drop-shadow(0 0 14px rgba(124, 58, 237, 0.9));
+  }
+}
+
+@keyframes sparkleGold {
+  0%, 100% {
+    filter: brightness(1) saturate(1) drop-shadow(0 0 8px rgba(255, 215, 0, 0.6));
+  }
+  25% {
+    filter: brightness(1.3) saturate(1.4) drop-shadow(0 0 12px rgba(255, 215, 0, 0.8));
+  }
+  50% {
+    filter: brightness(1.2) saturate(1.3) drop-shadow(0 0 10px rgba(251, 191, 36, 0.7));
+  }
+  75% {
+    filter: brightness(1.25) saturate(1.35) drop-shadow(0 0 14px rgba(255, 223, 0, 0.9));
+  }
+}
+
+@keyframes rotateGoldBorder {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes rotatePurpleBorder {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes sparkleRotate {
+  0% {
+    transform: rotate(0deg) scale(1);
+    opacity: 0.6;
+  }
+  50% {
+    transform: rotate(180deg) scale(1.1);
+    opacity: 0.8;
+  }
+  100% {
+    transform: rotate(360deg) scale(1);
+    opacity: 0.6;
+  }
 }
 
 /* Responsive cho màn hình lớn */

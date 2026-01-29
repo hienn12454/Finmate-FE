@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
 import styles from "./LoginModal.module.css";
@@ -6,18 +6,22 @@ import styles from "./LoginModal.module.css";
 interface LoginModalProps {
   isOpen: boolean;
   onClose: () => void;
+  redirectTo?: string;
 }
 
-export default function LoginModal({ isOpen, onClose }: LoginModalProps) {
+export default function LoginModal({ isOpen, onClose, redirectTo }: LoginModalProps) {
   const navigate = useNavigate();
   const { login, isAuthenticated, isLoading, error } = useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [localError, setLocalError] = useState<string | null>(null);
+  const hasRedirected = useRef(false);
 
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = "hidden";
+      // Reset redirect flag when modal opens
+      hasRedirected.current = false;
     } else {
       document.body.style.overflow = "unset";
     }
@@ -28,14 +32,26 @@ export default function LoginModal({ isOpen, onClose }: LoginModalProps) {
   }, [isOpen]);
 
   useEffect(() => {
-    // Chỉ redirect về dashboard khi:
+    // Chỉ redirect khi:
     // - Modal đang mở (user đang đăng nhập từ modal)
     // - Và đã đăng nhập thành công
-    if (isOpen && isAuthenticated) {
+    // - Và chưa redirect lần nào
+    // - Và không đang loading
+    if (isOpen && isAuthenticated && !hasRedirected.current && !isLoading) {
+      hasRedirected.current = true;
       onClose();
-      navigate("/dashboard");
+      // Ưu tiên redirectTo, sau đó kiểm tra sessionStorage
+      const upgradePlanId = sessionStorage.getItem("upgradePlanId");
+      if (redirectTo) {
+        navigate(redirectTo);
+      } else if (upgradePlanId) {
+        sessionStorage.removeItem("upgradePlanId");
+        navigate(`/payment?plan=${upgradePlanId}`);
+      } else {
+        navigate("/dashboard");
+      }
     }
-  }, [isOpen, isAuthenticated, navigate, onClose]);
+  }, [isOpen, isAuthenticated, isLoading, navigate, onClose, redirectTo]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
