@@ -8,6 +8,8 @@ export interface User {
   fullName?: string;
   phoneNumber?: string;
   avatarUrl?: string;
+  role?: string;
+  userRole?: string;
 }
 
 interface UseAuthReturn {

@@ -1,5 +1,15 @@
 # Finmate Frontend
 
+[![Live](https://img.shields.io/badge/Live-finmate.website-00C853?style=for-the-badge&logo=googlechrome)](https://finmate.website)
+![Build](https://github.com/hienn12454/Finmate-FE/actions/workflows/azure-static-web-apps.yml/badge.svg)
+![React](https://img.shields.io/badge/React-19-61DAFB?style=for-the-badge&logo=react)
+![TypeScript](https://img.shields.io/badge/TypeScript-5-3178C6?style=for-the-badge&logo=typescript)
+![Vite](https://img.shields.io/badge/Vite-Build-646CFF?style=for-the-badge&logo=vite)
+![Azure](https://img.shields.io/badge/Azure-Static%20Web%20Apps-0078D4?style=for-the-badge&logo=microsoftazure)
+![Status](https://img.shields.io/badge/Status-Production-2E7D32?style=for-the-badge)
+
+
+
 Ứng dụng quản lý tài chính cá nhân với React + TypeScript + Vite
 
 ## 🎨 Thiết kế

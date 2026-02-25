@@ -9,7 +9,7 @@ export default function Login() {
   const isRegisterMode = searchParams.get("register") === "true";
   const hasRedirected = useRef(false);
   
-  const { login, register, isAuthenticated, isLoading, error } = useAuth();
+  const { login, register, isAuthenticated, isLoading, error, user } = useAuth();
   
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -25,17 +25,23 @@ export default function Login() {
       // Kiểm tra xem có redirect URL không
       const redirect = searchParams.get("redirect");
       const upgradePlanId = sessionStorage.getItem("upgradePlanId");
+
+      // Check if admin user → redirect to admin dashboard
+      const userRole = (user as any)?.role || (user as any)?.userRole || "";
+      const isAdmin = userRole.toLowerCase() === "admin";
       
       if (upgradePlanId) {
         sessionStorage.removeItem("upgradePlanId");
         navigate(`/payment?plan=${upgradePlanId}`);
       } else if (redirect) {
         navigate(redirect);
+      } else if (isAdmin) {
+        navigate("/admin");
       } else {
         navigate("/dashboard");
       }
     }
-  }, [isAuthenticated, isLoading, navigate, searchParams]);
+  }, [isAuthenticated, isLoading, navigate, searchParams, user]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
