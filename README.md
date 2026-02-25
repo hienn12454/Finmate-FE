@@ -2,9 +2,9 @@
 [![namnm309](https://img.shields.io/badge/GitHub-namnm309-181717?style=flat&logo=github&logoColor=white)](https://github.com/namnm309)
 [![hienn12454](https://img.shields.io/badge/GitHub-hienn12454-181717?style=flat&logo=github&logoColor=white)](https://github.com/hienn12454)
 
-[![Deploy to Azure](https://img.shields.io/github/actions/workflow/status/hienn12454/Finmate-FE/azure-static-web-apps.yml?branch=main&label=Deploy&logo=azuredevops&style=flat)](https://github.com/hienn12454/Finmate-FE/actions)
+[![Deploy to Azure](https://img.shields.io/github/actions/workflow/status/hienn12454/Finmate-FE/azure-static-web-apps-white-sea-043626300.yml?branch=main&label=Deploy&logo=azuredevops&style=flat)](https://github.com/hienn12454/Finmate-FE/actions)
 
-[![Build Status](https://img.shields.io/github/actions/workflow/status/hienn12454/Finmate-FE/azure-static-web-apps.yml?branch=main&style=flat)](https://github.com/hienn12454/Finmate-FE/actions)
+[![Build Status](https://img.shields.io/github/actions/workflow/status/hienn12454/Finmate-FE/azure-static-web-apps-white-sea-043626300.yml?branch=main&style=flat)](https://github.com/hienn12454/Finmate-FE/actions)
 
 [![React 19](https://img.shields.io/badge/React-19-61DAFB?style=flat&logo=react&logoColor=white)](https://react.dev/)
 [![TypeScript 5](https://img.shields.io/badge/TypeScript-5-3178C6?style=flat&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
