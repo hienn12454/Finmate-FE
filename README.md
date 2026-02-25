@@ -1,18 +1,17 @@
 # Finmate Frontend
+[![namnm309](https://img.shields.io/badge/GitHub-namnm309-181717?style=flat&logo=github&logoColor=white)](https://github.com/namnm309)
+[![hienn12454](https://img.shields.io/badge/GitHub-hienn12454-181717?style=flat&logo=github&logoColor=white)](https://github.com/hienn12454)
 
-[![GitHub namnm309](https://img.shields.io/badge/GitHub-namnm309-181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com/namnm309)
-[![GitHub hienn12454](https://img.shields.io/badge/GitHub-hienn12454-181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com/hienn12454)
+[![Deploy to Azure](https://img.shields.io/github/actions/workflow/status/hienn12454/Finmate-FE/azure-static-web-apps.yml?branch=main&label=Deploy&logo=azuredevops&style=flat)](https://github.com/hienn12454/Finmate-FE/actions)
 
-[![Live](https://img.shields.io/badge/Live-finmate.website-00C853?style=for-the-badge&logo=googlechrome&logoColor=white)](https://finmate.website)
+[![Build Status](https://img.shields.io/github/actions/workflow/status/hienn12454/Finmate-FE/azure-static-web-apps.yml?branch=main&style=flat)](https://github.com/hienn12454/Finmate-FE/actions)
 
-[![Deploy](https://img.shields.io/github/actions/workflow/status/hienn12454/Finmate-FE/azure-static-web-apps.yml?branch=main&label=Deploy&logo=azuredevops&style=for-the-badge&color=00C853)](https://github.com/hienn12454/Finmate-FE/actions)
-
-[![Build](https://img.shields.io/github/actions/workflow/status/hienn12454/Finmate-FE/azure-static-web-apps.yml?branch=main&label=Build&style=for-the-badge&color=00C853)](https://github.com/hienn12454/Finmate-FE/actions)
-
-[![React 19](https://img.shields.io/badge/React-19-61DAFB?style=for-the-badge&logo=react&logoColor=white)](https://react.dev/)
-[![TypeScript 5](https://img.shields.io/badge/TypeScript-5-3178C6?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
-[![Vite](https://img.shields.io/badge/Vite-Build-646CFF?style=for-the-badge&logo=vite&logoColor=white)](https://vitejs.dev/)
-[![Azure Static Web Apps](https://img.shields.io/badge/Azure-Static_Web_Apps-0078D4?style=for-the-badge&logo=microsoftazure&logoColor=white)](https://azure.microsoft.com/)
+[![React 19](https://img.shields.io/badge/React-19-61DAFB?style=flat&logo=react&logoColor=white)](https://react.dev/)
+[![TypeScript 5](https://img.shields.io/badge/TypeScript-5-3178C6?style=flat&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+[![Vite](https://img.shields.io/badge/Vite-Build-646CFF?style=flat&logo=vite&logoColor=white)](https://vitejs.dev/)
+[![Clerk](https://img.shields.io/badge/Auth-Clerk-6C47FF?style=flat)](https://clerk.com/)
+[![Supabase](https://img.shields.io/badge/Supabase-3ECF8E?style=flat&logo=supabase&logoColor=white)](https://supabase.com/)
+[![Azure](https://img.shields.io/badge/Azure-0078D4?style=flat&logo=microsoftazure&logoColor=white)](https://azure.microsoft.com/)
 
 
 Ứng dụng quản lý tài chính cá nhân với React + TypeScript + Vite
