@@ -7,8 +7,10 @@ import { ErrorBoundary } from "./components/ErrorBoundary";
 import ClerkAuthSync from "./components/ClerkAuthSync";
 import "./index.css";
 
-// Clerk key - cần thêm VITE_CLERK_PUBLISHABLE_KEY trong GitHub Secrets để build production
-const clerkKey = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY ?? "";
+// Clerk key - dùng env nếu có, không thì fallback (publishable key là public, an toàn khi đặt trong code)
+const clerkKey =
+  import.meta.env.VITE_CLERK_PUBLISHABLE_KEY ||
+  "pk_test_bm90YWJsZS1oYWdmaXNoLTU0LmNsZXJrLmFjY291bnRzLmRldiQ";
 
 const LoadingScreen = () => (
   <div
@@ -50,7 +52,7 @@ const AppWithProviders = () => (
     <BrowserRouter>
       <Suspense fallback={<LoadingScreen />}>
         <ClerkProvider
-          publishableKey={clerkKey || "pk_test_placeholder"}
+          publishableKey={clerkKey}
           signInUrl="/sign-in-clerk"
           signUpUrl="/sign-up-clerk"
           signInForceRedirectUrl="/dashboard"
