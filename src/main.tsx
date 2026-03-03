@@ -7,7 +7,7 @@ import { ErrorBoundary } from "./components/ErrorBoundary";
 import ClerkAuthSync from "./components/ClerkAuthSync";
 import "./index.css";
 
-// Clerk key - bắt buộc để dùng đăng nhập Google. Lấy từ https://dashboard.clerk.com
+// Clerk key - cần thêm VITE_CLERK_PUBLISHABLE_KEY trong GitHub Secrets để build production
 const clerkKey = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY ?? "";
 
 const LoadingScreen = () => (
