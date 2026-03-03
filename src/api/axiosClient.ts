@@ -10,9 +10,18 @@ const axiosClient = axios.create({
   },
 });
 
-// Request interceptor: Attach token from localStorage
+// Các endpoint public không cần và không nên gửi Authorization header
+const PUBLIC_PATHS = ["basic-auth/login", "basic-auth/register"];
+
+// Request interceptor: Attach token from localStorage (trừ các endpoint public)
 axiosClient.interceptors.request.use(
   (config) => {
+    const url = (config.url || "").toLowerCase();
+    const isPublicPath = PUBLIC_PATHS.some((p) => url.includes(p));
+    if (isPublicPath) {
+      // Không gửi token cho register/login - tránh 401 khi có token cũ/hết hạn
+      return config;
+    }
     const token = localStorage.getItem("access_token");
     if (token) {
       // Token trả về từ backend là JWT, dùng scheme Bearer
