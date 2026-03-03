@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
+import { SignInButton } from "@clerk/clerk-react";
 import { useAuth } from "../hooks/useAuth";
 import styles from "./Login.module.css";
 
@@ -119,6 +120,18 @@ export default function Login() {
           </p>
           
           <form onSubmit={handleSubmit} className={styles.form}>
+            {!isRegisterMode && (import.meta.env.VITE_CLERK_PUBLISHABLE_KEY?.startsWith("pk_") ?? false) && (
+              <div className={styles.clerkSection}>
+                <SignInButton mode="modal" forceRedirectUrl={window.location.origin + "/dashboard"}>
+                  <button type="button" className={styles.clerkButton}>
+                    Đăng nhập với Google
+                  </button>
+                </SignInButton>
+                <div className={styles.divider}>
+                  <span>hoặc</span>
+                </div>
+              </div>
+            )}
             {(localError || error) && (
               <div className={styles.errorMessage}>
                 {localError || error}

@@ -1,9 +1,14 @@
 import React, { Suspense } from "react";
 import ReactDOM from "react-dom/client";
+import { ClerkProvider } from "@clerk/clerk-react";
 import { BrowserRouter } from "react-router-dom";
 import App from "./App";
 import { ErrorBoundary } from "./components/ErrorBoundary";
+import ClerkAuthSync from "./components/ClerkAuthSync";
 import "./index.css";
+
+// Clerk key - bắt buộc để dùng đăng nhập Google. Lấy từ https://dashboard.clerk.com
+const clerkKey = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY ?? "";
 
 const LoadingScreen = () => (
   <div
@@ -40,14 +45,21 @@ const LoadingScreen = () => (
   </div>
 );
 
+const AppWithProviders = () => (
+  <ErrorBoundary>
+    <BrowserRouter>
+      <Suspense fallback={<LoadingScreen />}>
+        <ClerkProvider publishableKey={clerkKey || "pk_test_placeholder"}>
+          <ClerkAuthSync />
+          <App />
+        </ClerkProvider>
+      </Suspense>
+    </BrowserRouter>
+  </ErrorBoundary>
+);
+
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
-    <ErrorBoundary>
-      <BrowserRouter>
-        <Suspense fallback={<LoadingScreen />}>
-          <App />
-        </Suspense>
-      </BrowserRouter>
-    </ErrorBoundary>
+    <AppWithProviders />
   </React.StrictMode>
 );

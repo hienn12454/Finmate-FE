@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useClerk } from "@clerk/clerk-react";
 import { authApi } from "../api/auth.api";
+import { CLERK_TOKEN_SYNC_EVENT } from "../components/ClerkAuthSync";
 
 export interface User {
   id: string;
@@ -33,6 +35,7 @@ let refreshPromise: Promise<void> | null = null;
 
 export const useAuth = (): UseAuthReturn => {
   const navigate = useNavigate();
+  const clerk = useClerk();
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [user, setUser] = useState<User | null>(null);
@@ -59,6 +62,25 @@ export const useAuth = (): UseAuthReturn => {
     };
 
     checkAuth();
+  }, []);
+
+  // Đồng bộ khi Clerk sign in/out
+  useEffect(() => {
+    const onClerkSync = () => {
+      const token = localStorage.getItem("access_token");
+      if (token) refreshUser();
+    };
+    const onClerkSignedOut = () => {
+      setUser(null);
+      setIsAuthenticated(false);
+      setIsLoading(false);
+    };
+    window.addEventListener(CLERK_TOKEN_SYNC_EVENT, onClerkSync);
+    window.addEventListener("clerk-signed-out", onClerkSignedOut);
+    return () => {
+      window.removeEventListener(CLERK_TOKEN_SYNC_EVENT, onClerkSync);
+      window.removeEventListener("clerk-signed-out", onClerkSignedOut);
+    };
   }, []);
 
   const refreshUser = async () => {
@@ -193,6 +215,7 @@ export const useAuth = (): UseAuthReturn => {
       console.error("Logout error:", err);
     } finally {
       localStorage.removeItem("access_token");
+      if (clerk?.signOut) await clerk.signOut();
       setUser(null);
       setIsAuthenticated(false);
       setIsLoading(false);
