@@ -101,8 +101,8 @@
 .logoMark {
   width: 36px;
   height: 36px;
-  background: linear-gradient(135deg, #3b82f6, #ec4899);
-  border-radius: 10px;
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  border-radius: 8px;
   display: flex;
   align-items: center;
   justify-content: center;

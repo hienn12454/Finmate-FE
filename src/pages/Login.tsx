@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { SignInButton } from "@clerk/clerk-react";
+import { Link } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
 import styles from "./Login.module.css";
 
@@ -104,6 +104,7 @@ export default function Login() {
     <div className={styles.container}>
       <div className={styles.header}>
         <div className={styles.logo} onClick={() => navigate("/")}>
+          <span className={styles.logoMark}>F</span>
           <span className={styles.logoText}>Finmate</span>
         </div>
       </div>
@@ -122,11 +123,9 @@ export default function Login() {
           <form onSubmit={handleSubmit} className={styles.form}>
             {!isRegisterMode && (import.meta.env.VITE_CLERK_PUBLISHABLE_KEY?.startsWith("pk_") ?? false) && (
               <div className={styles.clerkSection}>
-                <SignInButton mode="modal" forceRedirectUrl={window.location.origin + "/dashboard"}>
-                  <button type="button" className={styles.clerkButton}>
-                    Đăng nhập với Google
-                  </button>
-                </SignInButton>
+                <Link to="/sign-in-clerk" className={styles.clerkButton}>
+                  Đăng nhập với Google
+                </Link>
                 <div className={styles.divider}>
                   <span>hoặc</span>
                 </div>

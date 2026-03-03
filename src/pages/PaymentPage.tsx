@@ -123,6 +123,7 @@ export default function PaymentPage() {
       
       <header className={styles.header}>
         <button onClick={() => navigate("/")} className={styles.logo}>
+          <span className={styles.logoMark}>F</span>
           <span className={styles.logoText}>Finmate</span>
         </button>
         <div className={styles.headerRight}>

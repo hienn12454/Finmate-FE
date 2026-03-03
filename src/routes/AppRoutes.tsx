@@ -1,6 +1,8 @@
 import { Route, Routes } from "react-router-dom";
 import Homepage from "../pages/Homepage";
 import Login from "../pages/Login";
+import SignInClerk from "../pages/SignInClerk";
+import SignUpClerk from "../pages/SignUpClerk";
 import Dashboard from "../pages/Dashboard";
 import AccountBalances from "../pages/AccountBalances";
 import GoalsPage from "../pages/GoalsPage";
@@ -29,6 +31,8 @@ export default function AppRoutes() {
     <Routes>
       <Route path="/" element={<Homepage />} />
       <Route path="/login" element={<Login />} />
+      <Route path="/sign-in-clerk" element={<SignInClerk />} />
+      <Route path="/sign-up-clerk" element={<SignUpClerk />} />
       <Route path="/support" element={<Support />} />
       <Route path="/blog" element={<Blog />} />
       <Route path="/blog/:slug" element={<BlogPost />} />

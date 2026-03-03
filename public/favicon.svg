@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#10b981"/>
+      <stop offset="100%" stop-color="#047857"/>
+    </linearGradient>
+  </defs>
+  <rect width="32" height="32" rx="8" fill="url(#bg)"/>
+  <!-- Chữ F: nét dọc trái, 2 nét ngang -->
+  <path d="M11 8h2v16h-2V8z M11 8h9v2h-9V8z M11 13h6v2h-6v-2z" fill="white"/>
+</svg>

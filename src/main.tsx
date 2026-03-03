@@ -49,7 +49,13 @@ const AppWithProviders = () => (
   <ErrorBoundary>
     <BrowserRouter>
       <Suspense fallback={<LoadingScreen />}>
-        <ClerkProvider publishableKey={clerkKey || "pk_test_placeholder"}>
+        <ClerkProvider
+          publishableKey={clerkKey || "pk_test_placeholder"}
+          signInUrl="/sign-in-clerk"
+          signUpUrl="/sign-up-clerk"
+          signInForceRedirectUrl="/dashboard"
+          signUpForceRedirectUrl="/dashboard"
+        >
           <ClerkAuthSync />
           <App />
         </ClerkProvider>

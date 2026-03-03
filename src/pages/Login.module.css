@@ -94,8 +94,25 @@
 
 .logo {
   cursor: pointer;
-  display: inline-block;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
   transition: transform 0.3s ease;
+}
+
+.logoMark {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  color: white;
+  font-size: 1.25rem;
+  font-weight: 800;
+  flex-shrink: 0;
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.4);
 }
 
 .logo:hover {
@@ -254,6 +271,11 @@
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
+  text-decoration: none;
+}
+
+.clerkButton:visited {
+  color: #fff;
 }
 
 .clerkButton:hover {
@@ -275,6 +297,18 @@
   flex: 1;
   height: 1px;
   background: rgba(255, 255, 255, 0.2);
+}
+
+.clerkSignInWrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 400px;
+}
+
+.clerkSignInWrapper [data-clerk-component] {
+  --clerk-primary: #a8d8ea;
+  --clerk-primary-hover: #8bc9e0;
 }
 
 .formRow {
