@@ -10,23 +10,13 @@ const axiosClient = axios.create({
   },
 });
 
-// Các endpoint public không cần và không nên gửi Authorization header
-const PUBLIC_PATHS = ["basic-auth/login", "basic-auth/register"];
-
-// Request interceptor: Attach token from localStorage (trừ các endpoint public)
+// Request interceptor: Attach Clerk JWT token từ localStorage
 axiosClient.interceptors.request.use(
   (config) => {
-    const url = (config.url || "").toLowerCase();
-    const isPublicPath = PUBLIC_PATHS.some((p) => url.includes(p));
-    if (isPublicPath) {
-      // Không gửi token cho register/login - tránh 401 khi có token cũ/hết hạn
-      return config;
-    }
     const token = localStorage.getItem("access_token");
     if (token) {
-      // Token trả về từ backend là JWT, dùng scheme Bearer
       const trimmed = token.trim();
-      const hasScheme = /^(Bearer|Basic)\s+/i.test(trimmed);
+      const hasScheme = /^Bearer\s+/i.test(trimmed);
       config.headers.Authorization = hasScheme ? trimmed : `Bearer ${trimmed}`;
     }
     return config;

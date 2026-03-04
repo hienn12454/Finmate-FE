@@ -53,7 +53,7 @@ const AppWithProviders = () => (
       <Suspense fallback={<LoadingScreen />}>
         <ClerkProvider
           publishableKey={clerkKey}
-          signInUrl="/sign-in-clerk"
+          signInUrl="/login"
           signUpUrl="/sign-up-clerk"
           signInForceRedirectUrl="/dashboard"
           signUpForceRedirectUrl="/dashboard"

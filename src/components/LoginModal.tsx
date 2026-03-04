@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
 import styles from "./LoginModal.module.css";
@@ -11,36 +11,23 @@ interface LoginModalProps {
 
 export default function LoginModal({ isOpen, onClose, redirectTo }: LoginModalProps) {
   const navigate = useNavigate();
-  const { login, isAuthenticated, isLoading, error } = useAuth();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [localError, setLocalError] = useState<string | null>(null);
-  const hasRedirected = useRef(false);
+  const { isAuthenticated, isLoading } = useAuth();
 
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = "hidden";
-      // Reset redirect flag when modal opens
-      hasRedirected.current = false;
     } else {
       document.body.style.overflow = "unset";
     }
-
     return () => {
       document.body.style.overflow = "unset";
     };
   }, [isOpen]);
 
+  // Nếu đã đăng nhập (sau khi quay lại từ Clerk), đóng modal và redirect
   useEffect(() => {
-    // Chỉ redirect khi:
-    // - Modal đang mở (user đang đăng nhập từ modal)
-    // - Và đã đăng nhập thành công
-    // - Và chưa redirect lần nào
-    // - Và không đang loading
-    if (isOpen && isAuthenticated && !hasRedirected.current && !isLoading) {
-      hasRedirected.current = true;
+    if (isOpen && isAuthenticated && !isLoading) {
       onClose();
-      // Ưu tiên redirectTo, sau đó kiểm tra sessionStorage
       const upgradePlanId = sessionStorage.getItem("upgradePlanId");
       if (redirectTo) {
         navigate(redirectTo);
@@ -53,24 +40,17 @@ export default function LoginModal({ isOpen, onClose, redirectTo }: LoginModalPr
     }
   }, [isOpen, isAuthenticated, isLoading, navigate, onClose, redirectTo]);
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setLocalError(null);
-
-    if (!email.trim() || !password.trim()) {
-      setLocalError("Vui lòng nhập đầy đủ thông tin");
-      return;
+  const handleLoginClick = () => {
+    onClose();
+    if (redirectTo) {
+      sessionStorage.setItem("clerkRedirectAfterLogin", redirectTo);
     }
+    navigate("/login");
+  };
 
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-      setLocalError("Email không hợp lệ");
-      return;
-    }
-
-    const success = await login(email, password);
-    if (!success) {
-      setLocalError(error || "Đăng nhập thất bại");
-    }
+  const handleRegisterClick = () => {
+    onClose();
+    navigate("/sign-up-clerk");
   };
 
   if (!isOpen) return null;
@@ -83,49 +63,15 @@ export default function LoginModal({ isOpen, onClose, redirectTo }: LoginModalPr
         </button>
         <div className={styles.content}>
           <div className={styles.header}>
-            <h2>Đăng nhập vào <span className={styles.finmateText}>Finmate</span></h2>
+            <h2>
+              Đăng nhập vào <span className={styles.finmateText}>Finmate</span>
+            </h2>
             <p>Quản lý tài chính thông minh hơn</p>
           </div>
-          
-          <form onSubmit={handleSubmit} className={styles.form}>
-            {(localError || error) && (
-              <div className={styles.errorMessage}>
-                {localError || error}
-              </div>
-            )}
 
-            <div className={styles.formGroup}>
-              <label htmlFor="email">Email</label>
-              <input
-                id="email"
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="Nhập email"
-                disabled={isLoading}
-                required
-              />
-            </div>
-
-            <div className={styles.formGroup}>
-              <label htmlFor="password">Mật khẩu</label>
-              <input
-                id="password"
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                placeholder="Nhập mật khẩu"
-                disabled={isLoading}
-                required
-              />
-            </div>
-
-            <button
-              type="submit"
-              className={styles.submitButton}
-              disabled={isLoading}
-            >
-              {isLoading ? "Đang đăng nhập..." : "Đăng nhập"}
+          <div className={styles.form}>
+            <button className={styles.submitButton} onClick={handleLoginClick}>
+              Đăng nhập
             </button>
 
             <div className={styles.footer}>
@@ -134,16 +80,13 @@ export default function LoginModal({ isOpen, onClose, redirectTo }: LoginModalPr
                 <button
                   type="button"
                   className={styles.linkButton}
-                  onClick={() => {
-                    onClose();
-                    navigate("/login?register=true");
-                  }}
+                  onClick={handleRegisterClick}
                 >
                   Đăng ký ngay
                 </button>
               </p>
             </div>
-          </form>
+          </div>
         </div>
       </div>
     </div>
