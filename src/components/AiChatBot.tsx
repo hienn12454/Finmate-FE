@@ -346,26 +346,35 @@ function SparkleIcon({ size = 24 }: { size?: number }) {
   );
 }
 
-function CloseIcon({ size = 16 }: { size?: number }) {
+function CloseIcon({ size = 14 }: { size?: number }) {
   return (
-    <svg width={size} height={size} viewBox="0 0 16 16" fill="white">
-      <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z" />
+    <svg width={size} height={size} viewBox="0 0 14 14" fill="none">
+      <line x1="1" y1="1" x2="13" y2="13" stroke="white" strokeWidth="2.4" strokeLinecap="round" />
+      <line x1="13" y1="1" x2="1" y2="13" stroke="white" strokeWidth="2.4" strokeLinecap="round" />
     </svg>
   );
 }
 
 function SendIcon() {
   return (
-    <svg width="16" height="16" viewBox="0 0 16 16" fill="white">
-      <path d="M15.854.146a.5.5 0 0 1 .11.54l-5.819 14.547a.75.75 0 0 1-1.329.124l-3.178-4.995L.643 7.184a.75.75 0 0 1 .124-1.33L15.314.037a.5.5 0 0 1 .54.11ZM6.636 10.07l2.761 4.338L14.13 2.576 6.636 10.07Zm6.787-8.201L1.591 6.602l4.339 2.76 7.494-7.493Z" />
+    <svg width="16" height="16" viewBox="0 0 20 20" fill="none">
+      <polygon points="2,2 18,10 2,18 6,10" fill="white" />
     </svg>
   );
 }
 
 function TrashIcon() {
   return (
-    <svg width="15" height="15" viewBox="0 0 16 16" fill="white">
-      <path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5ZM11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1H11Zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5h9.916Zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5.5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47ZM8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5Z" />
+    <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+      {/* Nắp thùng */}
+      <rect x="1" y="2.5" width="12" height="1.5" rx="0.7" fill="white" />
+      <rect x="4.5" y="0.5" width="5" height="1.8" rx="0.7" fill="white" />
+      {/* Thân thùng */}
+      <path d="M2.5 5L3.2 12.2C3.3 12.7 3.7 13 4.2 13H9.8C10.3 13 10.7 12.7 10.8 12.2L11.5 5H2.5Z" fill="white" />
+      {/* 3 sọc dọc */}
+      <line x1="5" y1="6.5" x2="5" y2="11" stroke="rgba(6,9,24,0.5)" strokeWidth="1" strokeLinecap="round" />
+      <line x1="7" y1="6.5" x2="7" y2="11" stroke="rgba(6,9,24,0.5)" strokeWidth="1" strokeLinecap="round" />
+      <line x1="9" y1="6.5" x2="9" y2="11" stroke="rgba(6,9,24,0.5)" strokeWidth="1" strokeLinecap="round" />
     </svg>
   );
 }

@@ -101,23 +101,48 @@
 .logoMark {
   width: 36px;
   height: 36px;
-  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
   border-radius: 8px;
+  background-color: white;
+  background-image: url('/logo-finmate.png');
+  background-size: 82%;
+  background-repeat: no-repeat;
+  background-position: center;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-weight: 800;
-  font-size: 1.2rem;
-  color: white;
+  font-size: 0;
+  color: transparent;
+  box-shadow: 0 2px 8px rgba(16, 185, 129, 0.3);
 }
 
 .logoText {
   font-size: 1.3rem;
-  font-weight: 700;
-  background: linear-gradient(135deg, #60a5fa, #f472b6);
-  background-clip: text;
+  font-weight: 800;
+  background: linear-gradient(
+    90deg,
+    #10b981 0%,
+    #34d399 12%,
+    #38bdf8 25%,
+    #818cf8 38%,
+    #c084fc 50%,
+    #f472b6 62%,
+    #fb923c 75%,
+    #fbbf24 87%,
+    #10b981 100%
+  );
+  background-size: 300% auto;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+  background-clip: text;
+  filter:
+    drop-shadow(0 2px 8px rgba(16, 185, 129, 0.35))
+    drop-shadow(0 4px 14px rgba(129, 140, 248, 0.2));
+  animation: logoFlow 5s linear infinite;
+}
+
+@keyframes logoFlow {
+  0%   { background-position: 0% center; }
+  100% { background-position: 300% center; }
 }
 
 .adminBadge {
